@@ -10,22 +10,22 @@ import (
 // Chat server.
 type Server struct {
 	pattern   string
-	messages  []*Message
+	messages  []Message
 	clients   map[int]*Client
 	addCh     chan *Client
 	delCh     chan *Client
-	sendAllCh chan *Message
+	sendAllCh chan Message
 	doneCh    chan bool
 	errCh     chan error
 }
 
 // Create new chat server.
 func NewServer(pattern string) *Server {
-	messages := []*Message{}
+	messages := []Message{}
 	clients := make(map[int]*Client)
 	addCh := make(chan *Client)
 	delCh := make(chan *Client)
-	sendAllCh := make(chan *Message)
+	sendAllCh := make(chan Message)
 	doneCh := make(chan bool)
 	errCh := make(chan error)
 
@@ -49,7 +49,7 @@ func (s *Server) Del(c *Client) {
 	s.delCh <- c
 }
 
-func (s *Server) SendAll(msg *Message) {
+func (s *Server) SendAll(msg Message) {
 	s.sendAllCh <- msg
 }
 
@@ -67,7 +67,7 @@ func (s *Server) sendPastMessages(c *Client) {
 	}
 }
 
-func (s *Server) sendAll(msg *Message) {
+func (s *Server) sendAll(msg Message) {
 	for _, c := range s.clients {
 		c.Write(msg)
 	}

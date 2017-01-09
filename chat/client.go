@@ -17,7 +17,7 @@ type Client struct {
 	id     int
 	ws     *websocket.Conn
 	server *Server
-	ch     chan *Message
+	ch     chan Message
 	doneCh chan bool
 }
 
@@ -33,7 +33,7 @@ func NewClient(ws *websocket.Conn, server *Server) *Client {
 	}
 
 	maxId++
-	ch := make(chan *Message, channelBufSize)
+	ch := make(chan Message, channelBufSize)
 	doneCh := make(chan bool)
 
 	return &Client{maxId, ws, server, ch, doneCh}
@@ -43,7 +43,7 @@ func (c *Client) Conn() *websocket.Conn {
 	return c.ws
 }
 
-func (c *Client) Write(msg *Message) {
+func (c *Client) Write(msg Message) {
 	select {
 	case c.ch <- msg:
 	default:
@@ -72,7 +72,13 @@ func (c *Client) listenWrite() {
 		// send message to the client
 		case msg := <-c.ch:
 			log.Println("Send:", msg)
-			websocket.JSON.Send(c.ws, msg)
+			_, err := c.ws.Write(msg)
+			if err != nil {
+				c.server.Del(c)
+				c.doneCh <- true // for listenRead method
+				log.Println("Error:", err.Error())
+				return
+			}
 
 		// receive done request
 		case <-c.doneCh:
@@ -97,15 +103,26 @@ func (c *Client) listenRead() {
 
 		// read data from websocket connection
 		default:
-			var msg Message
+			/*var msg Message
 			err := websocket.JSON.Receive(c.ws, &msg)
 			if err == io.EOF {
 				c.doneCh <- true
 			} else if err != nil {
-				c.server.Err(err)
 			} else {
 				c.server.SendAll(&msg)
 			}
+			*/
+			var msg Message = make(Message, 128)
+			_, err := c.ws.Read(msg)
+			if err == io.EOF {
+				c.doneCh <- true
+			} else if err != nil {
+				log.Println("Error:", err.Error())
+			} else {
+				c.server.SendAll(msg)
+				fmt.Printf("Receive: %s\n", msg[:])
+			}
+
 		}
 	}
 }
