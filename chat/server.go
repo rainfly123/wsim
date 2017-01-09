@@ -12,6 +12,8 @@ type Server struct {
 	pattern   string
 	messages  []Message
 	clients   map[int]*Client
+	users     map[string]*Client
+	groups    map[string][]string
 	addCh     chan *Client
 	delCh     chan *Client
 	sendAllCh chan Message
@@ -23,6 +25,8 @@ type Server struct {
 func NewServer(pattern string) *Server {
 	messages := []Message{}
 	clients := make(map[int]*Client)
+	users := make(map[string]*Client)
+	groups := make(map[string][]string)
 	addCh := make(chan *Client)
 	delCh := make(chan *Client)
 	sendAllCh := make(chan Message)
@@ -33,6 +37,8 @@ func NewServer(pattern string) *Server {
 		pattern,
 		messages,
 		clients,
+		users,
+		groups,
 		addCh,
 		delCh,
 		sendAllCh,
