@@ -54,6 +54,8 @@ func ParseMessage(msg Message) *InPut {
 		val.Mtype = PICTURE
 	case "video":
 		val.Mtype = VIDEO
+	default:
+		return nil
 	}
 	val.Touserid = temp[1]
 	if val.Mtype == EMOTION {
@@ -110,4 +112,20 @@ func (temp *OutPut) Bytes() []byte {
 	n, _ = buffer.WriteString(strconv.FormatInt(temp.Timet, 10))
 	_ = n
 	return buffer.Bytes()
+}
+
+func WhetherLogin(msg Message) (bool, bool, string) {
+	temp := string(msg)
+	var action bool
+	var login bool
+	var userid string
+	if strings.Contains(temp, "loginin") {
+		action = true
+		login = true
+	} else if strings.Contains(temp, "loginout") {
+		action = true
+		login = false
+		userid = temp[strings.Index(temp, "_")+1:]
+	}
+	return action, login, userid
 }

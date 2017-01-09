@@ -17,6 +17,6 @@ Instant Message Based On WebSocket
   3. 接收发图片 picture_fromuserid_URL_type_timet;(fromuserid 是发送者用户ID或者组ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
 
 
-**查询**
+**查询(暂未实现，可能不需要用)**
  1. 查询成员，members_groupid
  2. 查询聊天记录, records_groupid/touserid_timet
