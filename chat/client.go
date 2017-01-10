@@ -121,12 +121,27 @@ func (c *Client) listenRead() {
 				log.Println("Error:", err.Error())
 			} else {
 				c.server.SendAll(msg)
-				input := ParseMessage(msg)
+				input := ParseMessage(msg, c.userid)
 				log.Printf("Receive: %s\n", msg[:])
 				log.Printf("%+v", input)
 				if input == nil {
 					action, loginin, user := WhetherLogin(msg)
 					log.Println(action, loginin, user)
+					if action && loginin {
+						c.userid = user
+					}
+				}
+				if input.Ttype == GRP {
+					//group cast
+				} else {
+					//unicast
+					touser, online := c.server.users[input.Touserid]
+					if online {
+						output := NewOutput(input)
+						touser.Write(output.Bytes())
+					} else {
+						//offline....
+					}
 				}
 			}
 

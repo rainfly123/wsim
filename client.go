@@ -22,7 +22,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	message := []byte("emotion_123456_1001_group")
+	message := []byte("emotion_123456_1001_unicast")
 	_, err = ws.Write(message)
 	if err != nil {
 		log.Fatal(err)

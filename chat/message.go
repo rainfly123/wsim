@@ -35,17 +35,18 @@ type OutPut struct {
 	Timet      int64
 }
 type InPut struct {
-	Mtype    uint8
-	Touserid string
-	Url      string
-	Ecode    string
-	Ttype    uint8 // UNI, GRP
+	Mtype      uint8
+	Touserid   string
+	Url        string
+	Ecode      string
+	Ttype      uint8 // UNI, GRP
+	Fromuserid string
 }
 
 func (self Message) String() string {
 	return string(self)
 }
-func ParseMessage(msg Message) *InPut {
+func ParseMessage(msg Message, from string) *InPut {
 	var val InPut
 	temp := strings.Split(string(msg), "_")
 	mtype := temp[0]
@@ -72,14 +73,15 @@ func ParseMessage(msg Message) *InPut {
 	} else {
 		val.Ttype = GRP
 	}
+	val.Fromuserid = from
 	return &val
 }
 
-func NewOutput(val InPut, fromuserid string) *OutPut {
-	return &OutPut{val.Mtype, fromuserid, val.Url, val.Ecode, val.Ttype, time.Now().Unix()}
+func NewOutput(val *InPut) *OutPut {
+	return &OutPut{val.Mtype, val.Fromuserid, val.Url, val.Ecode, val.Ttype, time.Now().Unix()}
 }
-func (temp *OutPut) Bytes() []byte {
-	val := make([]byte, 128)
+func (temp *OutPut) Bytes() Message {
+	val := make(Message, 128)
 	var n int
 	buffer := bytes.NewBuffer(val)
 
