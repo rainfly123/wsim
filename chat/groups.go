@@ -11,6 +11,11 @@ func InitGroup() {
 	Groups := make(map[string][]string)
 	log.Println("Groups Inited", Groups)
 }
+
+func checkGroup(input *InPut) {
+
+}
+
 func RecGrpMsgTrd(server *Server) {
 	for input := range GroupMsgCh {
 		groupid := input.Touserid
@@ -31,6 +36,7 @@ func RecGrpMsgTrd(server *Server) {
 			}
 		} else {
 			// no this group,  checking ...
+			go checkGroup(input)
 		}
 	}
 }
