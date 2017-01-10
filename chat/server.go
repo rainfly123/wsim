@@ -9,9 +9,9 @@ import (
 
 // Chat server.
 type Server struct {
-	pattern   string
-	messages  []Message
-	clients   map[int]*Client
+	pattern string
+	//	messages  []Message
+	//clients   map[int]*Client
 	users     map[string]*Client
 	addCh     chan *Client
 	delCh     chan *Client
@@ -22,8 +22,8 @@ type Server struct {
 
 // Create new chat server.
 func NewServer(pattern string) *Server {
-	messages := []Message{}
-	clients := make(map[int]*Client)
+	//messages := []Message{}
+	//clients := make(map[int]*Client)
 	Users := make(map[string]*Client)
 	addCh := make(chan *Client)
 	delCh := make(chan *Client)
@@ -33,8 +33,8 @@ func NewServer(pattern string) *Server {
 
 	return &Server{
 		pattern,
-		messages,
-		clients,
+		//messages,
+		//clients,
 		Users,
 		addCh,
 		delCh,
@@ -67,18 +67,20 @@ func (s *Server) Err(err error) {
 	s.errCh <- err
 }
 
+/*
 func (s *Server) sendPastMessages(c *Client) {
 	for _, msg := range s.messages {
 		c.Write(msg)
 	}
 }
-
+*/
+/*
 func (s *Server) sendAll(msg Message) {
 	for _, c := range s.clients {
 		c.Write(msg)
 	}
 }
-
+*/
 // Listen and serve.
 // It serves client connection and broadcast request.
 func (s *Server) Listen() {
@@ -106,22 +108,25 @@ func (s *Server) Listen() {
 
 		// Add new a client
 		case c := <-s.addCh:
-			log.Println("Added new client")
-			s.clients[c.id] = c
-			log.Println("Now", len(s.clients), "clients connected.")
+			//log.Println("Added new client")
+			//s.clients[c.id] = c
+			log.Println("Added new client Now", maxId, "clients.")
+			_ = c
 		//	s.sendPastMessages(c)
 
 		// del a client
 		case c := <-s.delCh:
-			log.Println("Delete client")
-			delete(s.clients, c.id)
+			log.Println("Delete client", c.userid)
+			//delete(s.clients, c.id)
 			delete(s.users, c.userid)
 
 		// broadcast message for all clients
-		case msg := <-s.sendAllCh:
-			log.Println("Send all:", msg)
-			s.messages = append(s.messages, msg)
-			s.sendAll(msg)
+		/*
+			case msg := <-s.sendAllCh:
+				log.Println("Send all:", msg)
+				s.messages = append(s.messages, msg)
+				s.sendAll(msg)
+		*/
 
 		case err := <-s.errCh:
 			log.Println("Error:", err.Error())
