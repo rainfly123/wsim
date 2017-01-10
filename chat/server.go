@@ -48,6 +48,9 @@ func (s *Server) Add(c *Client) {
 	s.addCh <- c
 }
 
+func (s *Server) Online(user string, c *Client) {
+	s.users[user] = c
+}
 func (s *Server) Del(c *Client) {
 	s.delCh <- c
 }
@@ -105,9 +108,8 @@ func (s *Server) Listen() {
 		case c := <-s.addCh:
 			log.Println("Added new client")
 			s.clients[c.id] = c
-			s.users[c.userid] = c
 			log.Println("Now", len(s.clients), "clients connected.")
-			s.sendPastMessages(c)
+		//	s.sendPastMessages(c)
 
 		// del a client
 		case c := <-s.delCh:

@@ -114,21 +114,22 @@ func (c *Client) listenRead() {
 			}
 			*/
 			var msg Message = make(Message, 128)
-			_, err := c.ws.Read(msg)
+			i, err := c.ws.Read(msg)
 			if err == io.EOF {
 				c.doneCh <- true
 			} else if err != nil {
 				log.Println("Error:", err.Error())
 			} else {
-				c.server.SendAll(msg)
+				//c.server.SendAll(msg)
+				msg = msg[:i]
 				input := ParseMessage(msg, c.userid)
 				log.Printf("Receive: %s\n", msg[:])
-				log.Printf("%+v", input)
 				if input == nil { //not emotion_/picture_/video_
 					action, loginin, user := WhetherLogin(msg)
 					log.Println(action, loginin, user)
 					if action && loginin {
 						c.userid = user
+						c.server.Online(user, c)
 					}
 				} else { //emotion_/picture_/video_
 

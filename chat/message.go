@@ -50,6 +50,9 @@ func (self Message) String() string {
 func ParseMessage(msg Message, from string) *InPut {
 	var val InPut
 	temp := strings.Split(string(msg), "_")
+	if len(temp) != 4 {
+		return nil
+	}
 	mtype := temp[0]
 	switch mtype {
 	case "emotion":
