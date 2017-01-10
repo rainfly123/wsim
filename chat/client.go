@@ -124,23 +124,25 @@ func (c *Client) listenRead() {
 				input := ParseMessage(msg, c.userid)
 				log.Printf("Receive: %s\n", msg[:])
 				log.Printf("%+v", input)
-				if input == nil {
+				if input == nil { //not emotion_/picture_/video_
 					action, loginin, user := WhetherLogin(msg)
 					log.Println(action, loginin, user)
 					if action && loginin {
 						c.userid = user
 					}
-				}
-				if input.Ttype == GRP {
-					//group cast
-				} else {
-					//unicast
-					touser, online := c.server.users[input.Touserid]
-					if online {
-						output := NewOutput(input)
-						touser.Write(output.Bytes())
+				} else { //emotion_/picture_/video_
+
+					if input.Ttype == GRP {
+						//group cast
 					} else {
-						//offline....
+						//unicast
+						touser, online := c.server.users[input.Touserid]
+						if online {
+							output := NewOutput(input)
+							touser.Write(output.Bytes())
+						} else {
+							//offline....
+						}
 					}
 				}
 			}

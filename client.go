@@ -21,6 +21,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	var msg = make([]byte, 512)
+	_, err = ws.Read(msg)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Receive: %s\n", msg)
 
 	message := []byte("emotion_123456_1001_unicast")
 	_, err = ws.Write(message)
@@ -29,7 +35,7 @@ func main() {
 	}
 	fmt.Printf("Send: %s\n", message)
 
-	var msg = make([]byte, 512)
+	msg = make([]byte, 512)
 	_, err = ws.Read(msg)
 	if err != nil {
 		log.Fatal(err)

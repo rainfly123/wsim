@@ -27,16 +27,17 @@ const (
 )
 
 type OutPut struct {
-	Mtype      uint8
-	Fromuserid string
-	Url        string
-	Ecode      string
-	Ttype      uint8 // UNI, GRP
-	Timet      int64
+	Mtype       uint8
+	Fromuserid  string
+	Url         string
+	Ecode       string
+	Ttype       uint8 // UNI, GRP
+	Fromgroupid string
+	Timet       int64
 }
 type InPut struct {
 	Mtype      uint8
-	Touserid   string
+	Touserid   string //or fromgroupid
 	Url        string
 	Ecode      string
 	Ttype      uint8 // UNI, GRP
@@ -78,10 +79,10 @@ func ParseMessage(msg Message, from string) *InPut {
 }
 
 func NewOutput(val *InPut) *OutPut {
-	return &OutPut{val.Mtype, val.Fromuserid, val.Url, val.Ecode, val.Ttype, time.Now().Unix()}
+	return &OutPut{val.Mtype, val.Fromuserid, val.Url, val.Ecode, val.Ttype, val.Touserid, time.Now().Unix()}
 }
 func (temp *OutPut) Bytes() Message {
-	val := make(Message, 128)
+	val := make(Message, 256)
 	var n int
 	buffer := bytes.NewBuffer(val)
 
@@ -107,8 +108,12 @@ func (temp *OutPut) Bytes() Message {
 	n, _ = buffer.WriteString("_")
 	if temp.Ttype == GRP {
 		n, _ = buffer.WriteString("group")
+		n, _ = buffer.WriteString("_")
+		n, _ = buffer.WriteString(temp.Fromgroupid)
 	} else {
 		n, _ = buffer.WriteString("unicast")
+		n, _ = buffer.WriteString("_")
+		n, _ = buffer.WriteString(temp.Fromuserid)
 	}
 
 	n, _ = buffer.WriteString("_")
