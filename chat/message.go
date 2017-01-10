@@ -1,6 +1,8 @@
 package chat
 
 import "time"
+
+//import "log"
 import "bytes"
 import "strings"
 import "strconv"
@@ -65,10 +67,9 @@ func ParseMessage(msg Message) *InPut {
 	}
 
 	ttype := temp[3]
-	switch ttype {
-	case "unicast":
+	if strings.Contains(ttype, "unicast") {
 		val.Ttype = UNI
-	case "group":
+	} else {
 		val.Ttype = GRP
 	}
 	return &val
@@ -122,6 +123,7 @@ func WhetherLogin(msg Message) (bool, bool, string) {
 	if strings.Contains(temp, "loginin") {
 		action = true
 		login = true
+		userid = temp[strings.Index(temp, "_")+1:]
 	} else if strings.Contains(temp, "loginout") {
 		action = true
 		login = false

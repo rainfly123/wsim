@@ -16,7 +16,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	message := []byte("hello, world!")
+	mes := []byte("loginin_234567")
+	_, err = ws.Write(mes)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	message := []byte("emotion_123456_1001_group")
 	_, err = ws.Write(message)
 	if err != nil {
 		log.Fatal(err)

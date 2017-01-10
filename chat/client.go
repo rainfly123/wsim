@@ -121,7 +121,13 @@ func (c *Client) listenRead() {
 				log.Println("Error:", err.Error())
 			} else {
 				c.server.SendAll(msg)
-				fmt.Printf("Receive: %s\n", msg[:])
+				input := ParseMessage(msg)
+				log.Printf("Receive: %s\n", msg[:])
+				log.Printf("%+v", input)
+				if input == nil {
+					action, loginin, user := WhetherLogin(msg)
+					log.Println(action, loginin, user)
+				}
 			}
 
 		}
