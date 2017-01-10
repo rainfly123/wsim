@@ -7,6 +7,8 @@ var Groups map[string][]string
 var Mutex sync.Mutex
 var GroupMsgCh chan *InPut
 
+const MEMBERS = "http://www.66boss.com/app/tribe.php?act=tribe_user_id&tribe_id=5874"
+
 func InitGroup() {
 	Groups := make(map[string][]string)
 	log.Println("Groups Inited", Groups)
