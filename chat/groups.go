@@ -47,12 +47,14 @@ func checkGroup(input *InPut, server *Server) {
 		lockUsers.RLock()
 		client, online := server.users[user]
 		lockUsers.RUnlock()
+		output := NewOutput(input)
 		if online {
-			output := NewOutput(input)
+			//output := NewOutput(input)
 			client.Write(output.Bytes())
 		} else {
 			//user is offline
 			//log.Println("user is offline", user)
+			PushOfflineMsg(input.Touserid, output.String())
 		}
 	}
 }
@@ -70,12 +72,14 @@ func RecGrpMsgTrd(server *Server) {
 				lockUsers.RLock()
 				client, online := server.users[user]
 				lockUsers.RUnlock()
+				output := NewOutput(input)
 				if online {
-					output := NewOutput(input)
+					//output := NewOutput(input)
 					client.Write(output.Bytes())
 				} else {
 					//user is offline
 					//log.Println("user is offline", user)
+					PushOfflineMsg(input.Touserid, output.String())
 				}
 			}
 		} else {
