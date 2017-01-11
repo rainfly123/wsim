@@ -17,6 +17,7 @@ func main() {
 	server := chat.NewServer("/entry")
 	go server.Listen()
 	go chat.RecGrpMsgTrd(server)
+	go chat.HeaartbeatTrd(server)
 
 	// static files
 	http.Handle("/", http.FileServer(http.Dir("webroot")))

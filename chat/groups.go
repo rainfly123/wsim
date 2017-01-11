@@ -4,6 +4,7 @@ import "sync"
 import "io/ioutil"
 import "net/http"
 import "log"
+import "time"
 import "strings"
 
 var Groups map[string][]string
@@ -81,6 +82,22 @@ func RecGrpMsgTrd(server *Server) {
 			// no this group,  checking ...
 			log.Println("group not exists check...")
 			go checkGroup(input, server)
+		}
+	}
+}
+
+func HeaartbeatTrd(server *Server) {
+	for {
+		var users map[string]*Client
+		time.Sleep(1 * time.Second)
+
+		lockUsers.RLock()
+		users = server.users
+		lockUsers.RUnlock()
+
+		for _, client := range users {
+			client.Write([]byte("heartbeat_argument"))
+			log.Println(client.userid)
 		}
 	}
 }
