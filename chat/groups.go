@@ -1,21 +1,54 @@
 package chat
 
 import "sync"
+import "io/ioutil"
+import "net/http"
 import "log"
+import "strings"
 
 var Groups map[string][]string
 var Mutex sync.Mutex
 var GroupMsgCh chan *InPut
 
-const MEMBERS = "http://www.66boss.com/app/tribe.php?act=tribe_user_id&tribe_id=5874"
+const MEMBERS = "http://www.66boss.com/app/tribe.php?act=tribe_user_id&tribe_id="
 
 func InitGroup() {
 	Groups := make(map[string][]string)
 	log.Println("Groups Inited", Groups)
 }
 
-func checkGroup(input *InPut) {
+func checkGroup(input *InPut, server *Server) {
 
+	groupid := input.Touserid
+	url := MEMBERS + groupid //5874
+	res, err := http.Get(url)
+	if err != nil {
+		log.Println("Error Can't connect to www.66boss.com")
+	}
+	detail, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		log.Println("Error Read www.66boss.com")
+	}
+	if len(detail) <= 2 {
+		log.Println("Error Read www.66boss.com")
+	}
+	result = string(detail)
+	result = strings.Replace(result, "[", "", -1)
+	result = strings.Replace(result, "]", "", -1)
+	users := strings.Split(result, ",")
+	Mutex.Lock()
+	Groups[groupid] = users
+	Mutex.Unlock()
+	for _, user := range users {
+		client, online := server.users[user]
+		if online {
+			output := NewOutput(input)
+			client.Write(output.Bytes())
+		} else {
+			//user is offline
+		}
+	}
 }
 
 func RecGrpMsgTrd(server *Server) {
@@ -38,7 +71,7 @@ func RecGrpMsgTrd(server *Server) {
 			}
 		} else {
 			// no this group,  checking ...
-			go checkGroup(input)
+			go checkGroup(input, server)
 		}
 	}
 }
