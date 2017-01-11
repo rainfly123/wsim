@@ -54,7 +54,7 @@ func checkGroup(input *InPut, server *Server) {
 		} else {
 			//user is offline
 			//log.Println("user is offline", user)
-			PushOfflineMsg(input.Touserid, output.String())
+			PushOfflineMsg(user, output.String())
 		}
 	}
 }
@@ -79,7 +79,7 @@ func RecGrpMsgTrd(server *Server) {
 				} else {
 					//user is offline
 					//log.Println("user is offline", user)
-					PushOfflineMsg(input.Touserid, output.String())
+					PushOfflineMsg(user, output.String())
 				}
 			}
 		} else {
