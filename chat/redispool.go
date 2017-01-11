@@ -72,3 +72,16 @@ func PushOfflineMsg(user string, msg string) {
 	client.RPush(user, msg)
 	client.Close()
 }
+func SendoutOfflineMsg(user string) []string {
+	var client *redis.Client
+	var ok bool
+
+	client, ok = clients.Get()
+	if ok != true {
+		log.Panic("redis error")
+		return
+	}
+	msg, _ := client.LRange(user, 0, -1)
+	client.Close()
+	return msg
+}
