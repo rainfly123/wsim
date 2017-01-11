@@ -130,11 +130,11 @@ func WhetherLogin(msg Message) (bool, bool, string) {
 	var action bool
 	var login bool
 	var userid string
-	if strings.Contains(temp, "loginin") {
+	if strings.Contains(temp, "login") {
 		action = true
 		login = true
 		userid = temp[strings.Index(temp, "_")+1:]
-	} else if strings.Contains(temp, "loginout") {
+	} else if strings.Contains(temp, "logout") {
 		action = true
 		login = false
 		userid = temp[strings.Index(temp, "_")+1:]
