@@ -88,6 +88,34 @@ func ParseMessage(msg Message, from string) *InPut {
 func NewOutput(val *InPut) *OutPut {
 	return &OutPut{val.Mtype, val.Fromuserid, val.Url, val.Ecode, val.Ttype, val.Touserid, time.Now().Unix(), val.extenion}
 }
+func (temp *OutPut) String() string {
+	var val []string
+	val = make([]string, 7)
+	switch temp.Mtype {
+	case EMOTION:
+		val[0] = "emotion"
+	case VIDEO:
+		val[0] = "video"
+	case PICTURE:
+		val[0] = "picture"
+	}
+	val[1] = temp.Fromuserid
+	if temp.Mtype != EMOTION {
+		val[2] = temp.Url
+	} else {
+		val[2] = temp.Ecode
+	}
+	if temp.Ttype == GRP {
+		val[3] = "group"
+	} else {
+		val[3] = "unicast"
+	}
+	val[4] = temp.Fromgroupid
+	val[5] = strconv.FormatInt(temp.Timet, 10)
+	val[6] = temp.extenion
+	return strings.Join(val, "_")
+}
+
 func (temp *OutPut) Bytes() Message {
 	val := make(Message, 256)
 	var n int
@@ -97,9 +125,9 @@ func (temp *OutPut) Bytes() Message {
 	case EMOTION:
 		n, _ = buffer.WriteString("emotion")
 	case VIDEO:
-		n, _ = buffer.WriteString("VIDEO")
+		n, _ = buffer.WriteString("video")
 	case PICTURE:
-		n, _ = buffer.WriteString("PICTURE")
+		n, _ = buffer.WriteString("picture")
 	}
 
 	n, _ = buffer.WriteString("_")

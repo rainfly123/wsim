@@ -60,7 +60,7 @@ func InitRedis() {
 	clients.connFn = newcon
 	clients.connections = make(chan *redis.Client, 10)
 }
-func PushOfflineMsg(user string, msg Message) {
+func PushOfflineMsg(user string, msg string) {
 	var client *redis.Client
 	var ok bool
 

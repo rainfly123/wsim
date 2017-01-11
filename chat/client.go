@@ -145,11 +145,12 @@ func (c *Client) listenRead() {
 						lockUsers.RLock()
 						touser, online := c.server.users[input.Touserid]
 						lockUsers.RUnlock()
+						output := NewOutput(input)
 						if online {
-							output := NewOutput(input)
 							touser.Write(output.Bytes())
 						} else {
 							//offline....
+							PushOfflineMsg(input.Touserid, output.String())
 						}
 					}
 				}
