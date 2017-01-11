@@ -22,3 +22,9 @@ Instant Message Based On WebSocket
 **查询(暂未实现，可能不需要用)**
  1. 查询成员，members_groupid
  2. 查询聊天记录, records_groupid/touserid_timet
+
+
+
+**心跳消息，服务器主动探测客户端，客户端收到后　不需要做任何处理**
+
+ heartbeat_argument     argument 是变化的不定，后续扩展，只有heartbeat_　固定不变
