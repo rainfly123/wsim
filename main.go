@@ -3,11 +3,13 @@ package main
 import (
 	"log"
 	"net/http"
+	"runtime"
 
 	"./chat"
 )
 
 func main() {
+	runtime.GOMAXPROCS(4)
 	log.SetFlags(log.Lshortfile)
 	chat.InitGroup()
 

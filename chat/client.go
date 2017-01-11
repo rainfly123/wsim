@@ -142,7 +142,9 @@ func (c *Client) listenRead() {
 						GroupMsgCh <- input
 					} else {
 						//unicast
+						lockUsers.RLock()
 						touser, online := c.server.users[input.Touserid]
+						lockUsers.RUnlock()
 						if online {
 							output := NewOutput(input)
 							touser.Write(output.Bytes())

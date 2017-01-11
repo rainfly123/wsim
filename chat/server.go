@@ -3,9 +3,12 @@ package chat
 import (
 	"log"
 	"net/http"
+	"sync"
 
 	"../websocket"
 )
+
+var lockUsers sync.RWMutex
 
 // Chat server.
 type Server struct {
@@ -120,7 +123,9 @@ func (s *Server) Listen() {
 		case c := <-s.delCh:
 			log.Println("Delete client", c.userid)
 			//delete(s.clients, c.id)
+			lockUsers.Lock()
 			delete(s.users, c.userid)
+			lockUsers.Unlock()
 
 			// broadcast message for all clients
 			/*
@@ -130,7 +135,9 @@ func (s *Server) Listen() {
 					s.sendAll(msg)
 			*/
 		case c := <-s.onlineCh:
+			lockUsers.Lock()
 			s.users[c.userid] = c
+			lockUsers.Unlock()
 
 		case err := <-s.errCh:
 			log.Println("Error:", err.Error())
