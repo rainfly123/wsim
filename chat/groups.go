@@ -25,11 +25,13 @@ func checkGroup(input *InPut, server *Server) {
 	res, err := http.Get(url)
 	if err != nil {
 		log.Println("Error Can't connect to www.66boss.com")
+		return
 	}
 	detail, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if len(detail) <= 2 {
 		log.Println("Error Read www.66boss.com")
+		return
 	}
 	result := string(detail)
 	result = strings.Replace(result, "[", "", -1)
@@ -49,7 +51,7 @@ func checkGroup(input *InPut, server *Server) {
 			client.Write(output.Bytes())
 		} else {
 			//user is offline
-			log.Println("user is offline", user)
+			//log.Println("user is offline", user)
 		}
 	}
 }
@@ -72,7 +74,7 @@ func RecGrpMsgTrd(server *Server) {
 					client.Write(output.Bytes())
 				} else {
 					//user is offline
-					log.Println("user is offline", user)
+					//log.Println("user is offline", user)
 				}
 			}
 		} else {
