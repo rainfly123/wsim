@@ -2,8 +2,8 @@ Instant Message Based On WebSocket
 
 ##信令格式：
 **登录/登出：**
-  1. loginin_userid
-  2. loginout_useid
+  1. login_userid
+  2. logout_useid
 
 **发送消息：**
   1. 发表情 emotion_touserid_表情编码_type ; (touserid 是接收者用户ID或者组ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）

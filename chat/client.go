@@ -125,10 +125,10 @@ func (c *Client) listenRead() {
 				input := ParseMessage(msg, c.userid)
 				log.Printf("Receive: %s\n", msg[:])
 				if input == nil { //not emotion_/picture_/video_
-					action, loginin, user := WhetherLogin(msg)
-					log.Println(action, loginin, user)
+					action, login, user := WhetherLogin(msg)
+					log.Println(action, login, user)
 					if action {
-						if loginin {
+						if login {
 							c.userid = user
 							c.server.Online(c)
 						} else {
