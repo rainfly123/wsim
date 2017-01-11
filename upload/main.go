@@ -97,7 +97,7 @@ func writev3Handle(w http.ResponseWriter, req *http.Request) {
 		jsonres := JsonResponse{0, "Succeeded", (ACCESS_VIDEO_URL + temp)}
 		b, _ := json.Marshal(jsonres)
 		io.WriteString(w, string(b))
-		//Channel <- uuidFile
+		Channel <- uuidFile
 	}
 
 }

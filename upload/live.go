@@ -14,7 +14,6 @@ import (
 func Checkvideo(origin string) {
 
 	index := strings.LastIndex(origin, ".")
-	fmt.Println(origin)
 	if index > 0 {
 		dest := origin[0:index+1] + "jpg"
 		//var args = []string{"-i", origin, "-vframes", "1", "-vf", "crop=iw:iw*9/16", "-f", "image2", "-y", dest}
@@ -28,9 +27,7 @@ func Checkvideo(origin string) {
 }
 
 func Check_Thread() {
-	fmt.Println("----")
 	for video := range Channel {
-		fmt.Println(video)
 		go Checkvideo(video)
 	}
 }
