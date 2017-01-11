@@ -89,7 +89,7 @@ func RecGrpMsgTrd(server *Server) {
 func HeaartbeatTrd(server *Server) {
 	for {
 		var users map[string]*Client
-		time.Sleep(1 * time.Second)
+		time.Sleep(10 * time.Second)
 
 		lockUsers.RLock()
 		users = server.users
