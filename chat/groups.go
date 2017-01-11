@@ -13,7 +13,8 @@ var GroupMsgCh chan *InPut
 const MEMBERS = "http://www.66boss.com/app/tribe.php?act=tribe_user_id&tribe_id="
 
 func InitGroup() {
-	Groups := make(map[string][]string)
+	Groups = make(map[string][]string)
+	GroupMsgCh = make(chan *InPut)
 	log.Println("Groups Inited", Groups)
 }
 
@@ -27,19 +28,18 @@ func checkGroup(input *InPut, server *Server) {
 	}
 	detail, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
-	if err != nil {
-		log.Println("Error Read www.66boss.com")
-	}
 	if len(detail) <= 2 {
 		log.Println("Error Read www.66boss.com")
 	}
-	result = string(detail)
+	result := string(detail)
 	result = strings.Replace(result, "[", "", -1)
 	result = strings.Replace(result, "]", "", -1)
 	users := strings.Split(result, ",")
+
 	Mutex.Lock()
 	Groups[groupid] = users
 	Mutex.Unlock()
+
 	for _, user := range users {
 		client, online := server.users[user]
 		if online {
@@ -47,6 +47,7 @@ func checkGroup(input *InPut, server *Server) {
 			client.Write(output.Bytes())
 		} else {
 			//user is offline
+			log.Println("user is offline", user)
 		}
 	}
 }
@@ -67,10 +68,12 @@ func RecGrpMsgTrd(server *Server) {
 					client.Write(output.Bytes())
 				} else {
 					//user is offline
+					log.Println("user is offline", user)
 				}
 			}
 		} else {
 			// no this group,  checking ...
+			log.Println("group not exists check...")
 			go checkGroup(input, server)
 		}
 	}

@@ -14,6 +14,7 @@ func main() {
 	// websocket server
 	server := chat.NewServer("/entry")
 	go server.Listen()
+	go chat.RecGrpMsgTrd(server)
 
 	// static files
 	http.Handle("/", http.FileServer(http.Dir("webroot")))

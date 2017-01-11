@@ -12,12 +12,12 @@ type Server struct {
 	pattern string
 	//	messages  []Message
 	//clients   map[int]*Client
-	users     map[string]*Client
-	addCh     chan *Client
-	delCh     chan *Client
-	sendAllCh chan Message
-	doneCh    chan bool
-	errCh     chan error
+	users    map[string]*Client
+	addCh    chan *Client
+	delCh    chan *Client
+	onlineCh chan *Client
+	//doneCh   chan bool
+	errCh chan error
 }
 
 // Create new chat server.
@@ -27,19 +27,18 @@ func NewServer(pattern string) *Server {
 	Users := make(map[string]*Client)
 	addCh := make(chan *Client)
 	delCh := make(chan *Client)
-	sendAllCh := make(chan Message)
-	doneCh := make(chan bool)
+	onlineCh := make(chan *Client)
+	//sendAllCh := make(chan Message)
+	//doneCh := make(chan bool)
 	errCh := make(chan error)
 
 	return &Server{
 		pattern,
-		//messages,
-		//clients,
 		Users,
 		addCh,
 		delCh,
-		sendAllCh,
-		doneCh,
+		onlineCh,
+		//doneCh,
 		errCh,
 	}
 }
@@ -48,20 +47,23 @@ func (s *Server) Add(c *Client) {
 	s.addCh <- c
 }
 
-func (s *Server) Online(user string, c *Client) {
-	s.users[user] = c
+func (s *Server) Online(c *Client) {
+	s.onlineCh <- c
 }
 func (s *Server) Del(c *Client) {
 	s.delCh <- c
 }
 
+/*
 func (s *Server) SendAll(msg Message) {
 	s.sendAllCh <- msg
 }
-
+*/
+/*
 func (s *Server) Done() {
 	s.doneCh <- true
 }
+*/
 
 func (s *Server) Err(err error) {
 	s.errCh <- err
@@ -120,19 +122,21 @@ func (s *Server) Listen() {
 			//delete(s.clients, c.id)
 			delete(s.users, c.userid)
 
-		// broadcast message for all clients
-		/*
-			case msg := <-s.sendAllCh:
-				log.Println("Send all:", msg)
-				s.messages = append(s.messages, msg)
-				s.sendAll(msg)
-		*/
+			// broadcast message for all clients
+			/*
+				case msg := <-s.sendAllCh:
+					log.Println("Send all:", msg)
+					s.messages = append(s.messages, msg)
+					s.sendAll(msg)
+			*/
+		case c := <-s.onlineCh:
+			s.users[c.userid] = c
 
 		case err := <-s.errCh:
 			log.Println("Error:", err.Error())
 
-		case <-s.doneCh:
-			return
+			//case <-s.doneCh:
+			//	return
 		}
 	}
 }

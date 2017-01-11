@@ -127,14 +127,19 @@ func (c *Client) listenRead() {
 				if input == nil { //not emotion_/picture_/video_
 					action, loginin, user := WhetherLogin(msg)
 					log.Println(action, loginin, user)
-					if action && loginin {
-						c.userid = user
-						c.server.Online(user, c)
+					if action {
+						if loginin {
+							c.userid = user
+							c.server.Online(c)
+						} else {
+							c.server.Del(c)
+						}
 					}
 				} else { //emotion_/picture_/video_
 
 					if input.Ttype == GRP {
 						//group cast
+						GroupMsgCh <- input
 					} else {
 						//unicast
 						touser, online := c.server.users[input.Touserid]
