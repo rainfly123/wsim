@@ -131,6 +131,10 @@ func (c *Client) listenRead() {
 						if login {
 							c.userid = user
 							c.server.Online(c)
+							messages := SendoutOfflineMsg(user)
+							for _, v := range messages {
+								c.Write([]byte(v)) //offline message
+							}
 						} else {
 							c.server.Del(c)
 						}
