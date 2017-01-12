@@ -18,7 +18,7 @@ var logger *log.Logger
 type JsonResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
-	Url     string `json:"url"`
+	Url     string `json:"data"`
 }
 
 func writev2Handle(w http.ResponseWriter, req *http.Request) {
