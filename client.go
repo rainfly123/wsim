@@ -17,7 +17,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	mes := []byte("loginin_234567")
+	mes := []byte("login_234567")
 	_, err = ws.Write(mes)
 	if err != nil {
 		log.Fatal(err)
