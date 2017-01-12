@@ -40,11 +40,12 @@ func main() {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
+	err = c.WriteMessage(websocket.TextMessage, []byte("login_1"))
 	for {
 		select {
 		case t := <-ticker.C:
 			_ = t
-			err := c.WriteMessage(websocket.TextMessage, []byte("eee"))
+			err := c.WriteMessage(websocket.TextMessage, []byte("emotion_5487_1001_group_extension"))
 			if err != nil {
 				log.Println("write:", err)
 				return
