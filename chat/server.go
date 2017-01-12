@@ -105,7 +105,7 @@ func (s *Server) Listen() {
 		s.Add(client)
 		client.Listen()
 	}
-	http.Handle(s.pattern, websocket.Handler(onConnected))
+	http.Handle(s.pattern, websocket.Server{Handler: onConnected})
 	log.Println("Created handler")
 
 	for {
