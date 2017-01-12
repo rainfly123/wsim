@@ -93,7 +93,7 @@ func RecGrpMsgTrd(server *Server) {
 func HeaartbeatTrd(server *Server) {
 	for {
 		var users map[string]*Client
-		time.Sleep(10 * time.Second)
+		time.Sleep(30 * time.Second)
 
 		lockUsers.RLock()
 		users = server.users
@@ -101,7 +101,7 @@ func HeaartbeatTrd(server *Server) {
 
 		for _, client := range users {
 			client.Write([]byte("heartbeat_argument"))
-			log.Println(client.userid)
+			//log.Println(client.userid)
 		}
 	}
 }
