@@ -50,7 +50,7 @@ func checkGroup(input *InPut, server *Server) {
 		output := NewOutput(input)
 		if online {
 			//output := NewOutput(input)
-			client.Write(output.Bytes())
+			client.Write([]byte(output.String()))
 		} else {
 			//user is offline
 			//log.Println("user is offline", user)
@@ -75,7 +75,7 @@ func RecGrpMsgTrd(server *Server) {
 				output := NewOutput(input)
 				if online {
 					//output := NewOutput(input)
-					client.Write(output.Bytes())
+					client.Write([]byte(output.String()))
 				} else {
 					//user is offline
 					//log.Println("user is offline", user)

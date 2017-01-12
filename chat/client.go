@@ -72,7 +72,7 @@ func (c *Client) listenWrite() {
 
 		// send message to the client
 		case msg := <-c.ch:
-			log.Println("Send:", msg)
+			log.Println("Send:", msg, c.userid)
 			_, err := c.ws.Write(msg)
 			if err != nil {
 				c.server.Del(c)
@@ -151,7 +151,7 @@ func (c *Client) listenRead() {
 						lockUsers.RUnlock()
 						output := NewOutput(input)
 						if online {
-							touser.Write(output.Bytes())
+							touser.Write([]byte(output.String()))
 						} else {
 							//offline....
 							PushOfflineMsg(input.Touserid, output.String())
