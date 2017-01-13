@@ -107,10 +107,11 @@ func (temp *OutPut) String() string {
 	}
 	if temp.Ttype == GRP {
 		val[3] = "group"
+		val[4] = temp.Fromgroupid
 	} else {
 		val[3] = "unicast"
+		val[4] = temp.Fromuserid
 	}
-	val[4] = temp.Fromgroupid
 	val[5] = strconv.FormatInt(temp.Timet, 10)
 	val[6] = temp.extenion
 	return strings.Join(val, "_")
