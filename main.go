@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+
 	runtime.GOMAXPROCS(4)
 	log.SetFlags(log.Lshortfile)
 	chat.InitGroup()
