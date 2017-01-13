@@ -38,9 +38,9 @@
 
 ## **上传图片**
 
-http://wsim.66boss.com/upload/writev2?   Multipart-Form name="file"
+http://live.66boss.com/upload/writev2?   Multipart-Form name="file"
 
 ## **上传视频**
 
-http://wsim.66boss.com/upload/writev3?   Multipart-Form name="file"
+http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
 
