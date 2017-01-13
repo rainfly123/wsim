@@ -114,6 +114,6 @@ func main() {
 
 	//	http.Handle("/", http.FileServer(http.Dir("/root/git/weibo/upload")))
 
-	if err := http.ListenAndServe(":9090", nil); err != nil {
+	if err := http.ListenAndServe(":6070", nil); err != nil {
 	}
 }
