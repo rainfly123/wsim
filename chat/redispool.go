@@ -53,6 +53,7 @@ func newcon() (*redis.Client, error) {
 	var client *redis.Client
 	client = redis.New()
 	err := client.Connect(host, port)
+	client.Command(nil, "SELECT", 1)
 	return client, err
 }
 
