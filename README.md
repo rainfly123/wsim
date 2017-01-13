@@ -44,3 +44,5 @@ http://live.66boss.com/upload/writev2?   Multipart-Form name="file"
 
 http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
 
+## **聊天**
+ws://live.66boss.com:6060/entry
