@@ -56,28 +56,40 @@ func GetURLs(users string) []string {
 		return urls
 	}
 	detail, err := ioutil.ReadAll(res.Body)
+	for i, ch := range detail {
+
+		switch {
+		case ch > '~':
+			detail[i] = ' '
+		case ch == '\r':
+		case ch == '\n':
+		case ch == '\t':
+		case ch < ' ':
+			detail[i] = ' '
+		}
+	}
 	res.Body.Close()
 	if err != nil {
 		return urls
 	}
-	var all interface{}
-	eb := json.Unmarshal(detail, &all)
-	fmt.Println(all, detail, eb)
-	data := all.(map[string]interface{})
+	all := make(map[string]interface{})
+	json.Unmarshal(detail, &all)
 	all_users := strings.Split(users, ",")
 	for _, user := range all_users {
-		url := data[user].(string)
-		fmt.Println(url)
+		url := all[user].(string)
 		urls = append(urls, url)
 	}
 	return urls
 }
 
+/*
 func main() {
 	//	var urls = [...]string{"https://imgcdn.66boss.com/imagesu/avatar/1470558849_10000016530.jpg",
 	//		"https://imgcdn.66boss.com/imagesu/avatar_temp/default.jpg"}
 	//	outputs := Download(urls[:])
 	//	fmt.Println(outputs)
 	var cc = "1,1000001653"
-	fmt.Println(GetURLs(cc))
+	d := GetURLs(cc)
+	fmt.Println(Download(d))
 }
+*/
