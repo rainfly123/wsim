@@ -48,7 +48,7 @@ http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
 ws://live.66boss.com:6060/entry
 
 
-##　近期实现
+##　刷新群成员，群成员有变化后，调用此接口，ＩＭ重新加载群成员
 http://live.66boss.com:6060/refreshgrp?groupid=xxx 刷新群成员，群成员有增删时调用
 
 
