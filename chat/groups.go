@@ -1,11 +1,9 @@
 package chat
 
 import "sync"
-import "io/ioutil"
-import "net/http"
+import "menteslibres.net/gosexy/redis"
 import "log"
 import "time"
-import "strings"
 
 var Groups map[string][]string
 var Mutex sync.Mutex
@@ -21,23 +19,20 @@ func InitGroup() {
 
 func checkGroup(input *InPut, server *Server) {
 
+	var client *redis.Client
+	var ok bool
+
 	groupid := input.Touserid
-	url := MEMBERS + groupid //5874
-	res, err := http.Get(url)
-	if err != nil {
-		log.Println("Error Can't connect to www.66boss.com")
+	key := "groupmembers_" + groupid
+
+	client, ok = Clients.Get()
+	if ok != true {
+		log.Panic("redis error")
 		return
 	}
-	detail, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-	if len(detail) <= 2 {
-		log.Println("Error Read www.66boss.com")
-		return
-	}
-	result := string(detail)
-	result = strings.Replace(result, "[", "", -1)
-	result = strings.Replace(result, "]", "", -1)
-	users := strings.Split(result, ",")
+
+	users, _ := client.SMembers(key)
+	defer client.Close()
 
 	Mutex.Lock()
 	Groups[groupid] = users

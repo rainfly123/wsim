@@ -117,6 +117,10 @@ func addHandle(w http.ResponseWriter, req *http.Request) {
 
 	client.Close()
 
+	chat.Mutex.Lock()
+	delete(chat.Groups, groupid)
+	chat.Mutex.Unlock()
+
 	jsonres := JsonResponse{1, "OK"}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
@@ -155,6 +159,10 @@ func delHandle(w http.ResponseWriter, req *http.Request) {
 	}
 
 	client.Close()
+
+	chat.Mutex.Lock()
+	delete(chat.Groups, groupid)
+	chat.Mutex.Unlock()
 
 	jsonres := JsonResponse{1, "OK"}
 	b, _ := json.Marshal(jsonres)
