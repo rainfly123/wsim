@@ -113,7 +113,7 @@ func (c *Client) listenRead() {
 				c.server.SendAll(&msg)
 			}
 			*/
-			var msg Message = make(Message, 384)
+			var msg Message = make(Message, 1024)
 			i, err := c.ws.Read(msg)
 			if err == io.EOF {
 				c.doneCh <- true
