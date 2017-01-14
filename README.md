@@ -46,3 +46,18 @@ http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
 
 ## **聊天**
 ws://live.66boss.com:6060/entry
+
+
+##　近期实现
+http://live.66boss.com:6060/refreshgrp?groupid=xxx 刷新群成员，群成员有增删时调用
+
+
+
+##　远期实现
+http://live.66boss.com:6060/creategrp?creator=xxx&members=abc,bcd,efg...创建群
+http://live.66boss.com:6060/addmember?groupid=xxx&members=abc,bcd,efg...增加群成员
+http://live.66boss.com:6060/rmmember?groupid=xxx&members=abc,bcd,efg...踢出群成员
+http://live.66boss.com:6060/editgrp?groupid=xxx&intro=xxx&notice=xxx&name=xx更改群资料
+
+
+
