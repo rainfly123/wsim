@@ -5,7 +5,7 @@ import "log"
 
 var host = "127.0.0.1"
 var port = uint(6379)
-var clients redisPool
+var Clients redisPool
 
 type redisPool struct {
 	connections chan *redis.Client
@@ -58,14 +58,14 @@ func newcon() (*redis.Client, error) {
 }
 
 func InitRedis() {
-	clients.connFn = newcon
-	clients.connections = make(chan *redis.Client, 10)
+	Clients.connFn = newcon
+	Clients.connections = make(chan *redis.Client, 10)
 }
 func PushOfflineMsg(user string, msg string) {
 	var client *redis.Client
 	var ok bool
 
-	client, ok = clients.Get()
+	client, ok = Clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return
@@ -78,7 +78,7 @@ func SendoutOfflineMsg(user string) []string {
 	var ok bool
 	var null []string
 
-	client, ok = clients.Get()
+	client, ok = Clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return null
