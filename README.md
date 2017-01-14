@@ -13,6 +13,8 @@
   3. 发图片 picture_touserid_URL_type_extension;(touserid 是接收者用户ID或者组ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
 
 **extension 可以为任何字符　只要不含有_**
+格式：
+{“sender”:”张三”,”senderAvartar”:”www.baidu.com”,”conversation”:”老板六六聊天群”,”conversationAvartar”:”www.baidu.com”}sender:当前登录用户名,消息发送者senderAvartar:消息发送者头像conversation:私聊—》好友用户名，群聊—》群名conversationAvartar:私聊—》好友头像，群聊—》群头像
 
 ## **接收消息**
 
