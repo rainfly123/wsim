@@ -3,8 +3,9 @@ package main
 import (
 	"log"
 	"net/http"
+	"encoding/json"
 	"runtime"
-
+	"io"
 	"./chat"
 )
 
@@ -23,9 +24,9 @@ func refreshGrp(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	Mutex.Lock()
-	delete(Groups, groupid)
-	Mutex.Unlock()
+	chat.Mutex.Lock()
+	delete(chat.Groups, groupid)
+	chat.Mutex.Unlock()
 
         jsonres := JsonResponse{1, "OK"}
 	b, _ := json.Marshal(jsonres)
