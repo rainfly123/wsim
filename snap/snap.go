@@ -1,4 +1,4 @@
-package main
+package snap
 
 import (
 	"fmt"
@@ -89,7 +89,9 @@ func GenGroupSnap(users string, group string) string {
 	return VPATH + group + ".jpg"
 }
 
+/*
 func main() {
 	fmt.Println(GenGroupSnap("1000006331,1000006123,1000006340", "333"))
 	//	fmt.Println(GenGroupSnap("1000001653,1000001653,1000001653", "333"))
 }
+*/

@@ -1,4 +1,4 @@
-package main
+package snap
 
 import "os"
 import "io"

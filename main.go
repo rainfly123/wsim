@@ -2,6 +2,7 @@ package main
 
 import (
 	"./chat"
+	"./snap"
 	"encoding/json"
 	"io"
 	"log"
@@ -15,10 +16,19 @@ type JsonResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 }
+
+type GroupInfo struct {
+	Groupid string   `json:"groupid"`
+	Creator string   `json:"creator"`
+	Name    string   `json:"name"`
+	Notice  string   `json:"notice"`
+	Snap    string   `json:"snap"`
+	Members []string `json:"members"`
+}
 type JsonResponseData struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-	Data    string `json:"data"`
+	Code    int       `json:"code"`
+	Message string    `json:"message"`
+	Data    GroupInfo `json:"data"`
 }
 
 func refreshGrp(w http.ResponseWriter, req *http.Request) {
@@ -44,8 +54,9 @@ func refreshGrp(w http.ResponseWriter, req *http.Request) {
 func createHandle(w http.ResponseWriter, req *http.Request) {
 	creator := req.FormValue("creator")
 	members := req.FormValue("members")
+	name := req.FormValue("name")
 
-	if len(creator) < 2 || len(members) < 2 {
+	if len(name) < 1 || len(creator) < 2 || len(members) < 2 {
 		jsonres := JsonResponse{1, "argument error"}
 		b, _ := json.Marshal(jsonres)
 		io.WriteString(w, string(b))
@@ -67,8 +78,9 @@ func createHandle(w http.ResponseWriter, req *http.Request) {
 	strID, _ := client.Get("groupID")
 	key := "group_" + strID
 	mkey := "groupmembers_" + strID
+	snapurl := snap.GenGroupSnap(bmembers, strID)
 
-	client.HMSet(key, "creator", creator, "name", "", "notice", "", "qrcode", "")
+	client.HMSet(key, "creator", creator, "name", name, "notice", "", "snap", snapurl)
 	for _, v := range users {
 		client.SAdd(mkey, v)
 		skey := "mygroups_" + v
@@ -77,8 +89,8 @@ func createHandle(w http.ResponseWriter, req *http.Request) {
 
 	client.Incr("groupID")
 	client.Close()
-
-	jsonres := JsonResponseData{1, "OK", strID}
+	groupinfo := GroupInfo{strID, creator, name, "", snapurl, users}
+	jsonres := JsonResponseData{1, "OK", groupinfo}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
@@ -204,7 +216,7 @@ func editHandle(w http.ResponseWriter, req *http.Request) {
 }
 func querymygrpHandle(w http.ResponseWriter, req *http.Request) {
 	userid := req.FormValue("userid")
-
+	var agroups []GroupInfo
 	if len(userid) < 2 {
 		jsonres := JsonResponse{1, "argument error"}
 		b, _ := json.Marshal(jsonres)
@@ -221,12 +233,33 @@ func querymygrpHandle(w http.ResponseWriter, req *http.Request) {
 	}
 	key := "mygroups_" + userid
 	groups, _ := client.SMembers(key)
+	for _, v := range groups {
+		ls, _ := client.HMGet("creator", "name", "notice", "snap")
+		var temp GroupInfo
+		temp.Groupid = v
+		for k, p := range ls {
+			switch {
+			case k == 0:
+				temp.Creator = p
+			case k == 1:
+				temp.Name = p
+			case k == 2:
+				temp.Notice = p
+			case k == 3:
+				temp.Snap = p
+			}
+		}
+		gkey := "groupmembers_" + v
+		members, _ := client.SMembers(gkey)
+		temp.Members = members
+		agroups = append(agroups, temp)
+	}
 	client.Close()
 	type MyResopnse struct {
 		JsonResponse
-		Groups []string `json:"data"`
+		Groups []GroupInfo `json:"data"`
 	}
-	jsonres := MyResopnse{JsonResponse{1, "OK"}, groups}
+	jsonres := MyResopnse{JsonResponse{1, "OK"}, agroups}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
