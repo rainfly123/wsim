@@ -3,13 +3,14 @@ package main
 import "os"
 import "io"
 
-import "fmt"
+//import "fmt"
 import "strings"
 import "encoding/json"
 import "net/http"
 import "io/ioutil"
 
 const PATH = "/live/www/html/emovideo/"
+const VPATH = "http://live.66boss.com/emovideo/"
 const SNAPURL = "http://www.66boss.com/app/user.php?act=user_avatar&user_id="
 
 func Exist(filename string) bool {
