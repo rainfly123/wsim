@@ -25,6 +25,15 @@ var POSITION = [10][9]image.Rectangle{
 	{0: image.Rect(10, 10, 110, 110), 1: image.Rect(120, 10, 220, 210), 2: image.Rect(230, 10, 330, 110), 3: image.Rect(10, 120, 110, 220), 4: image.Rect(120, 120, 220, 220), 5: image.Rect(230, 120, 330, 220), 6: image.Rect(10, 230, 110, 330), 7: image.Rect(120, 230, 220, 330), 8: image.Rect(230, 230, 330, 330)},
 }
 
+func getUUID() string {
+	f, _ := os.OpenFile("/dev/urandom", os.O_RDONLY, 0)
+	b := make([]byte, 8)
+	f.Read(b)
+	f.Close()
+	uuid := fmt.Sprintf("_%x%x%x%x.jpg", b[0:1], b[2:3], b[4:5], b[6:7])
+	return uuid
+}
+
 func Resize(pictures []string) ([]image.Image, int) {
 	var outputs []image.Image
 	total := len(pictures)
@@ -64,7 +73,8 @@ func Resize(pictures []string) ([]image.Image, int) {
 }
 
 func GenGroupSnap(users string, group string) string {
-	dstfile := PATH + group + ".jpg"
+	filename := group + getUUID()
+	dstfile := PATH + filename
 	file, err := os.Create(dstfile)
 	if err != nil {
 		fmt.Println(err)
@@ -86,7 +96,7 @@ func GenGroupSnap(users string, group string) string {
 		draw.Draw(m, tmp, output, output.Bounds().Min, draw.Over)
 	}
 	jpeg.Encode(file, m, nil)
-	return VPATH + group + ".jpg"
+	return VPATH + filename
 }
 
 /*
