@@ -51,7 +51,7 @@ ws://live.66boss.com:6060/entry
 
 
 ##　群成员管理　
-http://live.66boss.com:6060/creategrp?creator=xxx&members=abc,bcd,efg&name=x创建群
+创建群 http://live.66boss.com:6060/creategrp?creator=1000001653&members=1000001653,1000006331,1000006123,1000006340,1000001901&name=我的群 
 
 ```
 {
@@ -73,16 +73,16 @@ http://live.66boss.com:6060/creategrp?creator=xxx&members=abc,bcd,efg&name=x创�
 }
 ```
 
-http://live.66boss.com:6060/addmember?groupid=xxx&members=abc,bcd,efg...增加群成员
+增加群成员
+http://live.66boss.com:6060/addmembers?groupid=10&members=50,60,70,40
+{"code": 1,"message": "OK"}
+
+http://live.66boss.com:6060/delmember?groupid=10&members=50,60    踢出群成员
 
 {"code": 1,"message": "OK"}
 
-http://live.66boss.com:6060/rmmember?groupid=xxx&members=abc,bcd,efg...踢出群成员
-
-{"code": 1,"message": "OK"}
-
-http://live.66boss.com:6060/editgrp?groupid=xxx&intro=xxx&notice=xxx&name=xx更改群资料
-
+ 更改群资料
+http://live.66boss.com:6060/editgrp?groupid=10&notice=xxx&name=xx
 {"code": 1,"message": "OK"}
 
 **查询我的群**
