@@ -33,7 +33,6 @@ func Resize(pictures []string) ([]image.Image, int) {
 		size = 150
 	}
 	for _, picture := range pictures {
-		fmt.Println(picture)
 		var PNG bool
 		var img image.Image
 
@@ -44,13 +43,16 @@ func Resize(pictures []string) ([]image.Image, int) {
 		}
 		if PNG {
 			img, err = png.Decode(file)
-			if err != nil {
-				fmt.Println(err)
-			}
 		} else {
 			img, err = jpeg.Decode(file)
-			if err != nil {
-				fmt.Println(err)
+		}
+		if err != nil {
+			file.Close()
+			file, err = os.Open(picture)
+			if !PNG {
+				img, err = png.Decode(file)
+			} else {
+				img, err = jpeg.Decode(file)
 			}
 		}
 		file.Close()
@@ -71,7 +73,6 @@ func GenGroupSnap(users string, group string) string {
 
 	urls := GetURLs(users)
 	files := Download(urls)
-	fmt.Println(files)
 
 	m := image.NewRGBA(image.Rect(0, 0, 340, 340))
 	blue := color.RGBA{200, 200, 200, 255}
@@ -82,7 +83,6 @@ func GenGroupSnap(users string, group string) string {
 	total := len(outputs)
 	for i, output := range outputs {
 		tmp := POSITION[total][i]
-		fmt.Println(tmp)
 		draw.Draw(m, tmp, output, output.Bounds().Min, draw.Over)
 	}
 	jpeg.Encode(file, m, nil)
@@ -90,6 +90,6 @@ func GenGroupSnap(users string, group string) string {
 }
 
 func main() {
-	//fmt.Println(GenGroupSnap("1000006331,1000006123,1000006340", "333"))
-	fmt.Println(GenGroupSnap("1000001653,1000001653,1000001653", "333"))
+	fmt.Println(GenGroupSnap("1000006331,1000006123,1000006340", "333"))
+	//	fmt.Println(GenGroupSnap("1000001653,1000001653,1000001653", "333"))
 }
