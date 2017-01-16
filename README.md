@@ -50,13 +50,10 @@ http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
 ws://live.66boss.com:6060/entry
 
 
-##　刷新群成员，群成员有变化后，调用此接口，ＩＭ重新加载群成员
-http://live.66boss.com:6060/refreshgrp?groupid=xxx 刷新群成员，群成员有增删时调用
-
-
-
 ##　群成员管理　
 http://live.66boss.com:6060/creategrp?creator=xxx&members=abc,bcd,efg&name=x创建群
+
+```
 {
 "code": 1,
 "message": "OK",
@@ -74,6 +71,7 @@ http://live.66boss.com:6060/creategrp?creator=xxx&members=abc,bcd,efg&name=x创�
 ]
 }
 }
+```
 
 http://live.66boss.com:6060/addmember?groupid=xxx&members=abc,bcd,efg...增加群成员
 
@@ -88,9 +86,9 @@ http://live.66boss.com:6060/editgrp?groupid=xxx&intro=xxx&notice=xxx&name=xx更�
 {"code": 1,"message": "OK"}
 
 **查询我的群**
-
 http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
 
+```
 {
 "code": 1,
 "message": "OK",
@@ -157,6 +155,6 @@ http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
 ]
 }
 {"code": 1,"message": "OK","data": ["5","8","3","","12","10","9","11","6","4","13","1","2","7"]}
-
+```
 
 
