@@ -234,7 +234,8 @@ func querymygrpHandle(w http.ResponseWriter, req *http.Request) {
 	key := "mygroups_" + userid
 	groups, _ := client.SMembers(key)
 	for _, v := range groups {
-		ls, _ := client.HMGet("creator", "name", "notice", "snap")
+		kkey := "group_" + v
+		ls, _ := client.HMGet(kkey, "creator", "name", "notice", "snap")
 		var temp GroupInfo
 		temp.Groupid = v
 		for k, p := range ls {

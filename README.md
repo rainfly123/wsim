@@ -95,12 +95,11 @@ http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
 "data": [
 {
 "groupid": "10",
-"creator": "",
-"name": "",
+"creator": "1000001653",
+"name": "我的群",
 "notice": "",
-"snap": "",
+"snap": "http://live.66boss.com/emovideo/10.jpg",
 "members": [
-"40",
 "50",
 "60",
 "70",
@@ -112,10 +111,10 @@ http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
 },
 {
 "groupid": "11",
-"creator": "",
-"name": "",
+"creator": "1000001653",
+"name": "我的群",
 "notice": "",
-"snap": "",
+"snap": "http://live.66boss.com/emovideo/11.jpg",
 "members": [
 "1000001653",
 "1000006123",
@@ -125,10 +124,10 @@ http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
 },
 {
 "groupid": "12",
-"creator": "",
-"name": "",
+"creator": "1000001653",
+"name": "我的群",
 "notice": "",
-"snap": "",
+"snap": "http://live.66boss.com/emovideo/12.jpg",
 "members": [
 "1000001653",
 "1000006123",
@@ -138,10 +137,10 @@ http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
 },
 {
 "groupid": "13",
-"creator": "",
-"name": "",
+"creator": "1000001653",
+"name": "我的群",
 "notice": "",
-"snap": "",
+"snap": "http://live.66boss.com/emovideo/13.jpg",
 "members": [
 "50",
 "60",
@@ -154,7 +153,6 @@ http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
 }
 ]
 }
-{"code": 1,"message": "OK","data": ["5","8","3","","12","10","9","11","6","4","13","1","2","7"]}
 ```
 
 
