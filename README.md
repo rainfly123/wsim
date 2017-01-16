@@ -56,9 +56,24 @@ http://live.66boss.com:6060/refreshgrp?groupid=xxx 刷新群成员，群成员�
 
 
 ##　群成员管理　
-http://live.66boss.com:6060/creategrp?creator=xxx&members=abc,bcd,efg...创建群
-
-{"code": 1,"message": "OK","data": "14"}
+http://live.66boss.com:6060/creategrp?creator=xxx&members=abc,bcd,efg&name=x创建群
+{
+"code": 1,
+"message": "OK",
+"data": {
+"groupid": "10",
+"creator": "1000001653",
+"name": "我的群",
+"notice": "",
+"snap": "http://live.66boss.com/emovideo/10.jpg",
+"members": [
+"1000001653",
+"1000006331",
+"1000006123",
+"1000006340"
+]
+}
+}
 
 http://live.66boss.com:6060/addmember?groupid=xxx&members=abc,bcd,efg...增加群成员
 
@@ -76,6 +91,71 @@ http://live.66boss.com:6060/editgrp?groupid=xxx&intro=xxx&notice=xxx&name=xx更�
 
 http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
 
+{
+"code": 1,
+"message": "OK",
+"data": [
+{
+"groupid": "10",
+"creator": "",
+"name": "",
+"notice": "",
+"snap": "",
+"members": [
+"40",
+"50",
+"60",
+"70",
+"1000001653",
+"1000006123",
+"1000006331",
+"1000006340"
+]
+},
+{
+"groupid": "11",
+"creator": "",
+"name": "",
+"notice": "",
+"snap": "",
+"members": [
+"1000001653",
+"1000006123",
+"1000006331",
+"1000006340"
+]
+},
+{
+"groupid": "12",
+"creator": "",
+"name": "",
+"notice": "",
+"snap": "",
+"members": [
+"1000001653",
+"1000006123",
+"1000006331",
+"1000006340"
+]
+},
+{
+"groupid": "13",
+"creator": "",
+"name": "",
+"notice": "",
+"snap": "",
+"members": [
+"50",
+"60",
+"1000001653",
+"1000001901",
+"1000006123",
+"1000006331",
+"1000006340"
+]
+}
+]
+}
 {"code": 1,"message": "OK","data": ["5","8","3","","12","10","9","11","6","4","13","1","2","7"]}
 
 
