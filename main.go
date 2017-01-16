@@ -126,6 +126,12 @@ func addHandle(w http.ResponseWriter, req *http.Request) {
 		skey := "mygroups_" + v
 		client.SAdd(skey, groupid)
 	}
+	howmany := client.SMembers(mkey)
+	if len(howmany) <= 9 {
+		howmanys := string.Join(howmany, ",")
+		snapurl := snap.GenGroupSnap(howmanys, groupid)
+		client.HSet("group_"+groupid, "snap", snapurl)
+	}
 
 	client.Close()
 
@@ -168,6 +174,12 @@ func delHandle(w http.ResponseWriter, req *http.Request) {
 		client.SRem(mkey, v)
 		skey := "mygroups_" + v
 		client.SRem(skey, groupid)
+	}
+	howmany := client.SMembers(mkey)
+	if len(howmany) < 9 {
+		howmanys := string.Join(howmany, ",")
+		snapurl := snap.GenGroupSnap(howmanys, groupid)
+		client.HSet("group_"+groupid, "snap", snapurl)
 	}
 
 	client.Close()
