@@ -78,7 +78,7 @@ http://live.66boss.com:6060/addmembers?groupid=10&members=50,60,70,40
 {"code": 1,"message": "OK"}
 
 踢出群成员
-http://live.66boss.com:6060/delmember?groupid=10&members=50,60    
+http://live.66boss.com:6060/delmembers?groupid=10&members=50,60    
 {"code": 1,"message": "OK"}
 
 更改群资料
@@ -86,7 +86,7 @@ http://live.66boss.com:6060/editgrp?groupid=10&notice=xxx&name=xx
 {"code": 1,"message": "OK"}
 
 查询我的群
-http://live.66boss.com:6060/querymygroups?userid=xxx 查询我的群
+http://live.66boss.com:6060/querymygrps?userid=xxx 查询我的群
 
 ```
 {
