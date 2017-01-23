@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"time"
 
 	"./websocket"
 )
@@ -17,7 +16,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	mes := []byte("login_234567")
+	mes := []byte("login_1000005730")
 	_, err = ws.Write(mes)
 	if err != nil {
 		log.Fatal(err)
@@ -30,16 +29,14 @@ func main() {
 			}
 		fmt.Printf("Receive: %s\n", msg)
 	*/
-
-	for i := 0; i < 1; i++ {
-		//		message := []byte("emotion_5487_1001_group_extension")
-		message := []byte("emotion_1000005730_1001_unicast_extension")
-		_, err = ws.Write(message)
+	var message []byte
+	message = make([]byte, 1024)
+	for i := 0; i < 10; i++ {
+		n, err := ws.Read(message)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("Send: %s\n", message)
-		time.Sleep(1 * time.Second)
+		fmt.Println(string(message[:n]))
 	}
 
 	//	var msg = make([]byte, 512)
