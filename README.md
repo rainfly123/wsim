@@ -11,6 +11,8 @@
   1. 发表情 emotion_touserid_表情编码_type_extension ; (touserid 是接收者用户ID或者组ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
   2. 发视频 video_touserid_URL_type_extension;(touserid 是接收者用户ID或者组ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
   3. 发图片 picture_touserid_URL_type_extension;(touserid 是接收者用户ID或者组ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
+  4. 发文字 text_touserid_文字_type_extension ; (touserid 是接收者用户ID或者组ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
+  5. 发音频 audio_touserid_URL_type_extension;(touserid 是接收者用户ID或者组ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
 
 **extension 可以为任何字符　只要不含有_**
 格式：
@@ -21,6 +23,8 @@
   1. 接收表情 emotion_fromuserid_表情编码_type_fromgroupid_timet_extension ; (fromuserid 是发送者用户ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊, timet是从1970年１月...到目前的秒数）
   2. 接收视频 video_fromuserid_URL_type_fromgroupid_timet_extension;(fromuserid 是发送者用户ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
   3. 接收发图片 picture_fromuserid_URL_type_fromgroupid_timet_extension;(fromuserid 是发送者用户ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
+  3. 接收文字 text_fromuserid_文字_type_fromgroupid_timet_extension;(fromuserid 是发送者用户ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
+  2. 接收音频 audio_fromuserid_URL_type_fromgroupid_timet_extension;(fromuserid 是发送者用户ID，图片编码全网唯一，type 有二中:unicast, group 单聊，群聊）
 
 *如果是单聊，fromuserid = fromgroupid* 
 
