@@ -13,6 +13,8 @@ type Message []byte
 const emotion = "emotion"
 const picture = "picture"
 const video = "video"
+const audio = "audio"
+const text = "text"
 const unicast = "unicast"
 const group = "group"
 */
@@ -20,6 +22,8 @@ const (
 	EMOTION = 1
 	PICTURE = 2
 	VIDEO   = 3
+	TEXT    = 4
+	AUDIO   = 5
 )
 const (
 	UNI = 1
@@ -64,11 +68,15 @@ func ParseMessage(msg Message, from string) *InPut {
 		val.Mtype = PICTURE
 	case "video":
 		val.Mtype = VIDEO
+	case "text":
+		val.Mtype = TEXT
+	case "audio":
+		val.Mtype = AUDIO
 	default:
 		return nil
 	}
 	val.Touserid = temp[1]
-	if val.Mtype == EMOTION {
+	if (val.Mtype == EMOTION) || (val.Mtype == TEXT) {
 		val.Ecode = temp[2]
 	} else {
 		val.Url = temp[2]
@@ -98,12 +106,16 @@ func (temp *OutPut) String() string {
 		val[0] = "video"
 	case PICTURE:
 		val[0] = "picture"
+	case AUDIO:
+		val[0] = "audio"
+	case TEXT:
+		val[0] = "text"
 	}
 	val[1] = temp.Fromuserid
-	if temp.Mtype != EMOTION {
-		val[2] = temp.Url
-	} else {
+	if (temp.Mtype == TEXT) || (temp.Mtype == EMOTION) {
 		val[2] = temp.Ecode
+	} else {
+		val[2] = temp.Url
 	}
 	if temp.Ttype == GRP {
 		val[3] = "group"
@@ -129,18 +141,21 @@ func (temp *OutPut) Bytes() Message {
 		n, _ = buffer.WriteString("video")
 	case PICTURE:
 		n, _ = buffer.WriteString("picture")
+	case AUDIO:
+		n, _ = buffer.WriteString("audio")
+	case TEXT:
+		n, _ = buffer.WriteString("text")
 	}
 
 	n, _ = buffer.WriteString("_")
 	n, _ = buffer.WriteString(temp.Fromuserid)
 
 	n, _ = buffer.WriteString("_")
-	if temp.Mtype != EMOTION {
-		n, _ = buffer.WriteString(temp.Url)
-	} else {
+	if (temp.Mtype == TEXT) || (temp.Mtype == EMOTION) {
 		n, _ = buffer.WriteString(temp.Ecode)
+	} else {
+		n, _ = buffer.WriteString(temp.Url)
 	}
-
 	n, _ = buffer.WriteString("_")
 	if temp.Ttype == GRP {
 		n, _ = buffer.WriteString("group")
