@@ -42,7 +42,7 @@
 
 
 
-## **上传图片**
+## **上传图片/音频**
 
 http://live.66boss.com/upload/writev2?   Multipart-Form name="file"
 
