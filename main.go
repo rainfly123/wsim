@@ -280,7 +280,7 @@ func querymygrpHandle(w http.ResponseWriter, req *http.Request) {
 				case k == 0:
 					tempp.Nick = p
 				case k == 1:
-					temp.Snap = p
+					tempp.Snap = p
 				}
 			}
 			temp.Members = append(temp.Members, tempp)
