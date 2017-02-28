@@ -39,6 +39,9 @@ func checkGroup(input *InPut, server *Server) {
 	Mutex.Unlock()
 
 	for _, user := range users {
+		if user == input.Fromuserid {
+			continue
+		}
 		lockUsers.RLock()
 		client, online := server.users[user]
 		lockUsers.RUnlock()
@@ -64,6 +67,9 @@ func RecGrpMsgTrd(server *Server) {
 
 		if ok {
 			for _, user := range users {
+				if user == input.Fromuserid {
+					continue
+				}
 				lockUsers.RLock()
 				client, online := server.users[user]
 				lockUsers.RUnlock()
