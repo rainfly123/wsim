@@ -3,6 +3,7 @@ package main
 import (
 	"./chat"
 	"./snap"
+	"./userinfo"
 	"encoding/json"
 	"io"
 	"log"
@@ -16,14 +17,17 @@ type JsonResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 }
-
+type UserInfo struct {
+	Nick string `json:"nickname"`
+	Snap string `json:"snap"`
+}
 type GroupInfo struct {
-	Groupid string   `json:"groupid"`
-	Creator string   `json:"creator"`
-	Name    string   `json:"name"`
-	Notice  string   `json:"notice"`
-	Snap    string   `json:"snap"`
-	Members []string `json:"members"`
+	Groupid string     `json:"groupid"`
+	Creator string     `json:"creator"`
+	Name    string     `json:"name"`
+	Notice  string     `json:"notice"`
+	Snap    string     `json:"snap"`
+	Members []UserInfo `json:"members"`
 }
 type JsonResponseData struct {
 	Code    int       `json:"code"`
@@ -79,7 +83,7 @@ func createHandle(w http.ResponseWriter, req *http.Request) {
 	key := "group_" + strID
 	mkey := "groupmembers_" + strID
 	snapurl := snap.GenGroupSnap(bmembers, strID)
-	UserInfoCh <- bmembers
+	userinfo.UserInfoCh <- bmembers
 
 	client.HMSet(key, "creator", creator, "name", name, "notice", "", "snap", snapurl)
 	for _, v := range users {
@@ -90,7 +94,9 @@ func createHandle(w http.ResponseWriter, req *http.Request) {
 
 	client.Incr("groupID")
 	client.Close()
-	groupinfo := GroupInfo{strID, creator, name, "", snapurl, users}
+	//groupinfo := GroupInfo{strID, creator, name, "", snapurl, users}
+	var wrong []UserInfo
+	groupinfo := GroupInfo{strID, creator, name, "", snapurl, wrong}
 	jsonres := JsonResponseData{1, "OK", groupinfo}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
@@ -113,7 +119,7 @@ func addHandle(w http.ResponseWriter, req *http.Request) {
 	amembers := strings.TrimSpace(members)
 	bmembers := strings.TrimSuffix(amembers, ",")
 	users := strings.Split(bmembers, ",")
-	UserInfoCh <- bmembers
+	userinfo.UserInfoCh <- bmembers
 
 	client, ok = chat.Clients.Get()
 	if ok != true {
@@ -266,7 +272,20 @@ func querymygrpHandle(w http.ResponseWriter, req *http.Request) {
 		}
 		gkey := "groupmembers_" + v
 		members, _ := client.SMembers(gkey)
-		temp.Members = members
+		for _, member := range members {
+			lss, _ := client.HMGet("user_"+member, "nick", "snap")
+			var tempp UserInfo
+			for k, p := range lss {
+				switch {
+				case k == 0:
+					tempp.Nick = p
+				case k == 1:
+					temp.Snap = p
+				}
+			}
+			temp.Members = append(temp.Members, tempp)
+
+		}
 		agroups = append(agroups, temp)
 	}
 	client.Close()
