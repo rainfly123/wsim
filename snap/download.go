@@ -11,7 +11,7 @@ import "io/ioutil"
 
 const PATH = "/live/www/html/emovideo/"
 const VPATH = "http://live.66boss.com/emovideo/"
-const SNAPURL = "http://www.66boss.com/app/user.php?act=user_avatar&user_id="
+const SNAPURL = "https://api.66boss.com/ucenter/userinfo/avatar?user_id="
 
 func Exist(filename string) bool {
 	_, err := os.Stat(filename)
@@ -57,27 +57,31 @@ func GetURLs(users string) []string {
 		return urls
 	}
 	detail, err := ioutil.ReadAll(res.Body)
-	for i, ch := range detail {
+	/*
+		for i, ch := range detail {
 
-		switch {
-		case ch > '~':
-			detail[i] = ' '
-		case ch == '\r':
-		case ch == '\n':
-		case ch == '\t':
-		case ch < ' ':
-			detail[i] = ' '
+			switch {
+			case ch > '~':
+				detail[i] = ' '
+			case ch == '\r':
+			case ch == '\n':
+			case ch == '\t':
+			case ch < ' ':
+				detail[i] = ' '
+			}
 		}
-	}
+	*/
 	res.Body.Close()
 	if err != nil {
 		return urls
 	}
 	all := make(map[string]interface{})
 	json.Unmarshal(detail, &all)
+	result := all["result"]
+	snaps := result.(map[string]interface{})
 	all_users := strings.Split(users, ",")
 	for _, user := range all_users {
-		url := all[user].(string)
+		url := snaps[user].(string)
 		urls = append(urls, url)
 	}
 	return urls
@@ -89,8 +93,8 @@ func main() {
 	//		"https://imgcdn.66boss.com/imagesu/avatar_temp/default.jpg"}
 	//	outputs := Download(urls[:])
 	//	fmt.Println(outputs)
-	var cc = "1,1000001653"
+	var cc = "100000035,100000034"
 	d := GetURLs(cc)
-	fmt.Println(Download(d))
+	fmt.Println(d)
 }
 */
