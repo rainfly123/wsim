@@ -79,6 +79,7 @@ func createHandle(w http.ResponseWriter, req *http.Request) {
 	key := "group_" + strID
 	mkey := "groupmembers_" + strID
 	snapurl := snap.GenGroupSnap(bmembers, strID)
+	UserInfoCh <- bmembers
 
 	client.HMSet(key, "creator", creator, "name", name, "notice", "", "snap", snapurl)
 	for _, v := range users {
@@ -112,6 +113,7 @@ func addHandle(w http.ResponseWriter, req *http.Request) {
 	amembers := strings.TrimSpace(members)
 	bmembers := strings.TrimSuffix(amembers, ",")
 	users := strings.Split(bmembers, ",")
+	UserInfoCh <- bmembers
 
 	client, ok = chat.Clients.Get()
 	if ok != true {
@@ -284,12 +286,14 @@ func main() {
 	log.SetFlags(log.Lshortfile)
 	chat.InitGroup()
 	chat.InitRedis()
+	userinfo.InitUserCh()
 
 	// websocket server
 	server := chat.NewServer("/entry")
 	go server.Listen()
 	go chat.RecGrpMsgTrd(server)
 	//	go chat.HeaartbeatTrd(server)
+	go userinfo.GetUserinfo()
 
 	// static files
 	http.Handle("/", http.FileServer(http.Dir("webroot")))
