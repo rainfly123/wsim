@@ -26,7 +26,7 @@ func Download(urls []string) []string {
 			continue
 		}
 
-		index := strings.LastIndex(url, "_") + 1
+		index := strings.LastIndex(url, "/") + 1
 		uuid := PATH + url[index:]
 		if Exist(uuid) {
 			outputs = append(outputs, uuid)
