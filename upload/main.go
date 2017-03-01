@@ -57,6 +57,16 @@ func writev2Handle(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+type Meta struct {
+	Url  string `json:"url"`
+	Snap string `json:"snap"`
+}
+type mJsonResponse struct {
+	Code     int    `json:"code"`
+	Message  string `json:"message"`
+	Metainfo Meta   `json:"data"`
+}
+
 func writev3Handle(w http.ResponseWriter, req *http.Request) {
 	var uuidFile string
 	if req.Method == "GET" {
@@ -94,10 +104,13 @@ func writev3Handle(w http.ResponseWriter, req *http.Request) {
 			io.WriteString(w, string(b))
 			return
 		}
-		jsonres := JsonResponse{0, "Succeeded", (ACCESS_VIDEO_URL + temp)}
+		//Channel <- uuidFile
+		snapfile := Checkvideo(uuidFile)
+		mygod := WidthHeightFile(snapfile)
+		metainfo := Meta{(ACCESS_VIDEO_URL + temp), (ACCESS_VIDEO_URL + mygod)}
+		jsonres := mJsonResponse{0, "Succeeded", metainfo}
 		b, _ := json.Marshal(jsonres)
 		io.WriteString(w, string(b))
-		Channel <- uuidFile
 	}
 
 }
@@ -106,8 +119,8 @@ func main() {
 
 	logfile, _ := os.OpenFile("/var/log/upload.log", os.O_RDWR|os.O_CREATE, 0)
 	logger = log.New(logfile, "\n", log.Ldate|log.Ltime|log.Lshortfile)
-	Channel = make(chan string, 100)
-	go Check_Thread()
+	//Channel = make(chan string, 100)
+	//go Check_Thread()
 
 	http.HandleFunc("/writev2", writev2Handle)
 	http.HandleFunc("/writev3", writev3Handle)

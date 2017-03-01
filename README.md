@@ -46,9 +46,28 @@
 
 http://live.66boss.com/upload/writev2?   Multipart-Form name="file"
 
+```
+{
+"code": 0,
+"message": "OK",
+"data": "http://livecdn.66boss.com/emopic/1bada87cc98aa09399b38fb14628f54e-746x750.jpg"
+}
+```
+
+
 ## **上传视频**
 
+```
 http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
+{
+"code": 0,
+"message": "Succeeded",
+"data": {
+"url": "http://livecdn.66boss.com/emovideo/76a0e06714b51d53bd93a64d1547c0b0.mp4",
+"snap": "http://livecdn.66boss.com/emovideo/76a0e06714b51d53bd93a64d1547c0b0-640x356.jpg"
+}
+}
+```
 
 ## **聊天**
 ws://live.66boss.com:6060/entry
