@@ -49,11 +49,11 @@ func writev2Handle(w http.ResponseWriter, req *http.Request) {
 			io.WriteString(w, string(b))
 			return
 		}
-		Resize(uuidFile)
-		jsonres := JsonResponse{0, "OK", (ACCESS_URL + temp)}
+		withwh := Resize(uuidFile)
+		jsonres := JsonResponse{0, "OK", (ACCESS_URL + withwh)}
 		b, _ := json.Marshal(jsonres)
 		io.WriteString(w, string(b))
-		Channel <- uuidFile
+		//Channel <- uuidFile
 	}
 }
 

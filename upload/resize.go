@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/nfnt/resize"
+	"image"
 	"image/jpeg"
 	"image/png"
 	"os"
@@ -9,12 +11,12 @@ import (
 	"strings"
 )
 
-func Resize(name string) {
+func Resize(name string) string {
 	decoder := jpeg.Decode
 	var JPG bool
 
 	if !strings.HasSuffix(name, ".jpg") && !strings.HasSuffix(name, ".png") {
-		return
+		return path.Base(name)
 	}
 
 	JPG = strings.HasSuffix(name, ".jpg")
@@ -22,29 +24,34 @@ func Resize(name string) {
 		decoder = png.Decode
 	}
 
-	fileinfo, _ := os.Stat(name)
-	if fileinfo.Size()/1024 < 1024 {
-		return
-	}
-
 	file, err := os.Open(name)
 	if err != nil {
-		return
+		return path.Base(name)
 	}
 
 	img, err := decoder(file)
 	if err != nil {
-		return
+		return path.Base(name)
 	}
 	file.Close()
+	var m image.Image
+	fileinfo, _ := os.Stat(name)
+	if fileinfo.Size()/1024 > 1024 {
+		m = resize.Resize(600, 0, img, resize.Lanczos3)
+	} else {
+		m = img
+	}
 
-	m := resize.Resize(600, 0, img, resize.Lanczos3)
+	ext := path.Ext(name)
+	bounds := m.Bounds()
+	min, max := bounds.Min, bounds.Max
+	height, width := max.Y-min.Y, max.X-min.X
 
-	d := path.Dir(name)
-	var temp string = path.Join(d, "_temp_")
+	index := strings.LastIndex(name, ".")
+	var temp string = fmt.Sprintf("%s-%dx%d%s", name[:index], width, height, ext)
 	out, err := os.Create(temp)
 	if err != nil {
-		return
+		return path.Base(name)
 	}
 	// write new image to file
 	if JPG {
@@ -53,5 +60,13 @@ func Resize(name string) {
 		png.Encode(out, m)
 	}
 	out.Close()
-	os.Rename(temp, name)
+	//os.Rename(temp, name)
+	return path.Base(temp)
 }
+
+/*
+func main() {
+	fmt.Println(os.Args[1])
+	fmt.Println(Resize(os.Args[1]))
+}
+*/
