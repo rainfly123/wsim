@@ -18,8 +18,9 @@ type JsonResponse struct {
 	Message string `json:"message"`
 }
 type UserInfo struct {
-	Nick string `json:"nickname"`
-	Snap string `json:"snap"`
+	Nick   string `json:"nickname"`
+	Snap   string `json:"snap"`
+	Userid string `json:"userid"`
 }
 type GroupInfo struct {
 	Groupid string     `json:"groupid"`
@@ -283,8 +284,8 @@ func querymygrpHandle(w http.ResponseWriter, req *http.Request) {
 					tempp.Snap = p
 				}
 			}
+			tempp.Userid = member
 			temp.Members = append(temp.Members, tempp)
-
 		}
 		agroups = append(agroups, temp)
 	}
@@ -297,8 +298,64 @@ func querymygrpHandle(w http.ResponseWriter, req *http.Request) {
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
-
 }
+
+func grpinfoHandle(w http.ResponseWriter, req *http.Request) {
+	groupid := req.FormValue("groupid")
+	if len(groupid) < 2 {
+		jsonres := JsonResponse{1, "argument error"}
+		b, _ := json.Marshal(jsonres)
+		io.WriteString(w, string(b))
+		return
+	}
+	var client *redis.Client
+	var ok bool
+
+	client, ok = chat.Clients.Get()
+	if ok != true {
+		log.Panic("redis error")
+		return
+	}
+	kkey := "group_" + groupid
+	ls, _ := client.HMGet(kkey, "creator", "name", "notice", "snap")
+	var temp GroupInfo
+	temp.Groupid = groupid
+	for k, p := range ls {
+		switch {
+		case k == 0:
+			temp.Creator = p
+		case k == 1:
+			temp.Name = p
+		case k == 2:
+			temp.Notice = p
+		case k == 3:
+			temp.Snap = p
+		}
+	}
+	gkey := "groupmembers_" + groupid
+	members, _ := client.SMembers(gkey)
+	for _, member := range members {
+		lss, _ := client.HMGet("user_"+member, "nick", "snap")
+		var tempp UserInfo
+		for k, p := range lss {
+			switch {
+			case k == 0:
+				tempp.Nick = p
+			case k == 1:
+				tempp.Snap = p
+			}
+		}
+		tempp.Userid = member
+		temp.Members = append(temp.Members, tempp)
+
+	}
+	client.Close()
+	jsonres := JsonResponseData{1, "OK", temp}
+	b, _ := json.Marshal(jsonres)
+	io.WriteString(w, string(b))
+	return
+}
+
 func main() {
 
 	runtime.GOMAXPROCS(4)
@@ -321,6 +378,7 @@ func main() {
 	http.HandleFunc("/addmembers", addHandle)
 	http.HandleFunc("/delmembers", delHandle)
 	http.HandleFunc("/editgrp", editHandle)
+	http.HandleFunc("/grpinfo", grpinfoHandle)
 	http.HandleFunc("/querymygrps", querymygrpHandle)
 
 	log.Fatal(http.ListenAndServe(":6060", nil))

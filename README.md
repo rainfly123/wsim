@@ -166,3 +166,6 @@ http://live.66boss.com:6060/querymygrps?userid=xxx 查询我的群
 ```
 
 
+
+## 查询群信息
+http://live.66boss.com:6060/grpinfo?groupid=xxx 查询群信息
