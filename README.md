@@ -98,64 +98,51 @@ http://live.66boss.com:6060/querymygrps?userid=xxx 查询我的群
 "message": "OK",
 "data": [
 {
-"groupid": "10",
-"creator": "1000001653",
+"groupid": "26",
+"creator": "100000050",
 "name": "我的群",
 "notice": "",
-"snap": "http://live.66boss.com/emovideo/10.jpg",
+"snap": "http://live.66boss.com/emovideo/26_144fab26.jpg",
 "members": [
-"50",
-"60",
-"70",
-"1000001653",
-"1000006123",
-"1000006331",
-"1000006340"
-]
+{
+"nickname": "18202093751",
+"snap": "https://imgcdn.66boss.com/imagesu/avatar_temp/default.jpg"
 },
 {
-"groupid": "11",
-"creator": "1000001653",
-"name": "我的群",
-"notice": "",
-"snap": "http://live.66boss.com/emovideo/11.jpg",
-"members": [
-"1000001653",
-"1000006123",
-"1000006331",
-"1000006340"
-]
+"nickname": "18202093753",
+"snap": "https://imgcdn.66boss.com/imagesu/avatar_temp/default.jpg"
 },
 {
-"groupid": "12",
-"creator": "1000001653",
-"name": "我的群",
-"notice": "",
-"snap": "http://live.66boss.com/emovideo/12.jpg",
-"members": [
-"1000001653",
-"1000006123",
-"1000006331",
-"1000006340"
-]
+"nickname": "段思琪",
+"snap": "https://imgcdn.66boss.com/imagesu/avatar/20170216080727318380.jpg"
 },
 {
-"groupid": "13",
-"creator": "1000001653",
-"name": "我的群",
-"notice": "",
-"snap": "http://live.66boss.com/emovideo/13.jpg",
-"members": [
-"50",
-"60",
-"1000001653",
-"1000001901",
-"1000006123",
-"1000006331",
-"1000006340"
-]
+"nickname": "15323339887",
+"snap": "https://imgcdn.66boss.com/imagesu/avatar_temp/default.jpg"
 }
 ]
+},
+{
+"groupid": "27",
+"creator": "100000050",
+"name": "我的群",
+"notice": "",
+"snap": "http://live.66boss.com/emovideo/27_a3c0cea6.jpg",
+"members": [
+{
+"nickname": "18202093751",
+"snap": "https://imgcdn.66boss.com/imagesu/avatar_temp/default.jpg"
+},
+{
+"nickname": "18202093753",
+"snap": "https://imgcdn.66boss.com/imagesu/avatar_temp/default.jpg"
+},
+{
+"nickname": "段思琪",
+"snap": "https://imgcdn.66boss.com/imagesu/avatar/20170216080727318380.jpg"
+}
+]
+}]
 }
 ```
 
