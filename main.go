@@ -50,7 +50,7 @@ func refreshGrp(w http.ResponseWriter, req *http.Request) {
 	delete(chat.Groups, groupid)
 	chat.Mutex.Unlock()
 
-	jsonres := JsonResponse{1, "OK"}
+	jsonres := JsonResponse{0, "OK"}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
@@ -98,7 +98,7 @@ func createHandle(w http.ResponseWriter, req *http.Request) {
 	//groupinfo := GroupInfo{strID, creator, name, "", snapurl, users}
 	var wrong []UserInfo
 	groupinfo := GroupInfo{strID, creator, name, "", snapurl, wrong}
-	jsonres := JsonResponseData{1, "OK", groupinfo}
+	jsonres := JsonResponseData{0, "OK", groupinfo}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
@@ -148,7 +148,7 @@ func addHandle(w http.ResponseWriter, req *http.Request) {
 	delete(chat.Groups, groupid)
 	chat.Mutex.Unlock()
 
-	jsonres := JsonResponse{1, "OK"}
+	jsonres := JsonResponse{0, "OK"}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
@@ -197,7 +197,7 @@ func delHandle(w http.ResponseWriter, req *http.Request) {
 	delete(chat.Groups, groupid)
 	chat.Mutex.Unlock()
 
-	jsonres := JsonResponse{1, "OK"}
+	jsonres := JsonResponse{0, "OK"}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
@@ -230,7 +230,7 @@ func editHandle(w http.ResponseWriter, req *http.Request) {
 	}
 	client.Close()
 
-	jsonres := JsonResponse{1, "OK"}
+	jsonres := JsonResponse{0, "OK"}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
@@ -294,7 +294,7 @@ func querymygrpHandle(w http.ResponseWriter, req *http.Request) {
 		JsonResponse
 		Groups []GroupInfo `json:"data"`
 	}
-	jsonres := MyResopnse{JsonResponse{1, "OK"}, agroups}
+	jsonres := MyResopnse{JsonResponse{0, "OK"}, agroups}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
@@ -350,7 +350,7 @@ func grpinfoHandle(w http.ResponseWriter, req *http.Request) {
 
 	}
 	client.Close()
-	jsonres := JsonResponseData{1, "OK", temp}
+	jsonres := JsonResponseData{0, "OK", temp}
 	b, _ := json.Marshal(jsonres)
 	io.WriteString(w, string(b))
 	return
