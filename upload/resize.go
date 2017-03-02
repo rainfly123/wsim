@@ -31,7 +31,18 @@ func Resize(name string) string {
 
 	img, err := decoder(file)
 	if err != nil {
-		return path.Base(name)
+		file.Close()
+		file, _ = os.Open(name)
+		if JPG {
+			decoder = png.Decode
+		} else {
+			decoder = jpeg.Decode
+		}
+		img, err = decoder(file)
+		if err != nil {
+			file.Close()
+			return path.Base(name)
+		}
 	}
 	file.Close()
 	var m image.Image
