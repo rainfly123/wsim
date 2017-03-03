@@ -54,7 +54,7 @@ http://live.66boss.com/upload/writev1?   Multipart-Form name="file"
 }
 ```
 
-## **上传图片/音频**
+## **上传图片**
 
 http://live.66boss.com/upload/writev2?   Multipart-Form name="file"
 
