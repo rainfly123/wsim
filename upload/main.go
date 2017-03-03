@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"path"
 	"net/http"
 	"os"
+	"path"
 	//"sort"
 	"strconv"
 	"strings"
@@ -152,8 +152,13 @@ func writev3Handle(w http.ResponseWriter, req *http.Request) {
 		//Channel <- uuidFile
 		snapfile := Checkvideo(uuidFile)
 		mygod := WidthHeightFile(snapfile)
-		metainfo := Meta{(ACCESS_VIDEO_URL + temp), (ACCESS_VIDEO_URL + mygod)}
-		jsonres := mJsonResponse{0, "Succeeded", metainfo}
+		index := strings.LastIndex(mygod, ".")
+		var newFile string
+		if index > 0 {
+			newFile = mygod[0:index] + path.Ext(uuidFile)
+			os.Rename(uuidFile, (UPLOAD_VIDEO_PATH + newFile))
+		}
+		jsonres := JsonResponse{0, "Succeeded", (ACCESS_VIDEO_URL + newFile)}
 		b, _ := json.Marshal(jsonres)
 		io.WriteString(w, string(b))
 	}

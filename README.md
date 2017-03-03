@@ -74,10 +74,7 @@ http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
 {
 "code": 0,
 "message": "Succeeded",
-"data": {
-"url": "http://livecdn.66boss.com/emovideo/76a0e06714b51d53bd93a64d1547c0b0.mp4",
-"snap": "http://livecdn.66boss.com/emovideo/76a0e06714b51d53bd93a64d1547c0b0-640x356.jpg"
-}
+"data": "http://livecdn.66boss.com/emovideo/76a0e06714b51d53bd93a64d1547c0b0-640x330.mp4"
 }
 ```
 
