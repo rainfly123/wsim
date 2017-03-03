@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"path"
 	"net/http"
 	"os"
 	//"sort"
@@ -58,7 +59,7 @@ func writev1Handle(w http.ResponseWriter, req *http.Request) {
 			newFile = mp3file[0:index] + "-" + duration + ".mp3"
 			os.Rename(mp3file, newFile)
 		}
-		jsonres := JsonResponse{0, "OK", (ACCESS_URL + newFile)}
+		jsonres := JsonResponse{0, "OK", (ACCESS_URL + path.Base(newFile))}
 		b, _ := json.Marshal(jsonres)
 		io.WriteString(w, string(b))
 		//Channel <- uuidFile
