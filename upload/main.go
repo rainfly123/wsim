@@ -9,7 +9,7 @@ import (
 	"os"
 	//"sort"
 	"strconv"
-	//	"strings"
+	"strings"
 	//	"time"
 )
 
@@ -19,6 +19,50 @@ type JsonResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 	Url     string `json:"data"`
+}
+
+func writev1Handle(w http.ResponseWriter, req *http.Request) {
+	if req.Method == "GET" {
+		io.WriteString(w, fmt.Sprintf("<html><head><title>我的第一个页面</title></head><body><form action=\"writev1\" method=\"post\" enctype=\"multipart/form-data\"><label>上传音频</label><input type=\"file\" name='file'/><br/><label><input type=\"submit\" value=\"上传音频\"/></label></form></body></html>"))
+	} else {
+		file, head, err := req.FormFile("file")
+		if err != nil {
+			jsonres := JsonResponse{1, "参数错误", ""}
+			b, _ := json.Marshal(jsonres)
+			io.WriteString(w, string(b))
+			return
+		}
+		defer file.Close()
+		temp := getFileName(head.Filename)
+		uuidFile := UPLOAD_PATH + temp
+		fW, err := os.Create(uuidFile)
+		if err != nil {
+			jsonres := JsonResponse{2, "系统错误", ""}
+			b, _ := json.Marshal(jsonres)
+			io.WriteString(w, string(b))
+			return
+		}
+		_, err = io.Copy(fW, file)
+		if err != nil {
+			jsonres := JsonResponse{2, "系统错误", ""}
+			b, _ := json.Marshal(jsonres)
+			io.WriteString(w, string(b))
+			return
+		}
+		mp3file := Checkaudio(uuidFile)
+		var newFile string
+		newFile = mp3file
+		duration := GetDuration(mp3file)
+		index := strings.LastIndex(mp3file, ".")
+		if index > 0 {
+			newFile = mp3file[0:index] + "-" + duration + ".mp3"
+			os.Rename(mp3file, newFile)
+		}
+		jsonres := JsonResponse{0, "OK", (ACCESS_URL + newFile)}
+		b, _ := json.Marshal(jsonres)
+		io.WriteString(w, string(b))
+		//Channel <- uuidFile
+	}
 }
 
 func writev2Handle(w http.ResponseWriter, req *http.Request) {
@@ -70,7 +114,7 @@ type mJsonResponse struct {
 func writev3Handle(w http.ResponseWriter, req *http.Request) {
 	var uuidFile string
 	if req.Method == "GET" {
-		io.WriteString(w, fmt.Sprintf("<html><head><title>我的第一个页面</title></head><body><form action=\"writev3\" method=\"post\" enctype=\"multipart/form-data\"><label>上传图片</label><input type=\"file\" name='file'/><br/><label><input type=\"submit\" value=\"上传视频\"/></label></form></body></html>"))
+		io.WriteString(w, fmt.Sprintf("<html><head><title>我的第一个页面</title></head><body><form action=\"writev3\" method=\"post\" enctype=\"multipart/form-data\"><label>上传视频</label><input type=\"file\" name='file'/><br/><label><input type=\"submit\" value=\"上传视频\"/></label></form></body></html>"))
 	} else {
 		filesize, _ := strconv.Atoi(req.Header.Get("Content-Length"))
 		if filesize/1024/1024 > 20 {
@@ -122,6 +166,7 @@ func main() {
 	//Channel = make(chan string, 100)
 	//go Check_Thread()
 
+	http.HandleFunc("/writev1", writev1Handle)
 	http.HandleFunc("/writev2", writev2Handle)
 	http.HandleFunc("/writev3", writev3Handle)
 

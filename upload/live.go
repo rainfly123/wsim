@@ -9,11 +9,35 @@ import (
 	//"path"
 	"strings"
 	//"time"
+	"github.com/tcolgate/mp3"
 	"image"
 	"image/jpeg"
 	"os"
 	"path"
+	"strconv"
+	"time"
 )
+
+func GetDuration(file string) string {
+	r, err := os.Open(file)
+	if err != nil {
+		return "0"
+	}
+
+	d := mp3.NewDecoder(r)
+	var f mp3.Frame
+	var du time.Duration
+	for {
+
+		if err := d.Decode(&f); err != nil {
+			break
+		}
+		du += f.Duration()
+
+	}
+	r.Close()
+	return strconv.Itoa((int(du.Seconds() + 0.5)))
+}
 
 func WidthHeightFile(picture string) string {
 	total := len(picture)
@@ -54,6 +78,22 @@ func Checkvideo(origin string) string {
 		dest := origin[0:index+1] + "jpg"
 		//var args = []string{"-i", origin, "-vframes", "1", "-vf", "crop=iw:iw*9/16", "-f", "image2", "-y", dest}
 		var args = []string{"-i", origin, "-vframes", "1", "-f", "image2", "-y", dest}
+		cmd := exec.Command("ffmpeg", args[0:]...)
+		//cmd.Stdout = os.Stdout
+		//cmd.Stderr = os.Stderr
+		err := cmd.Run()
+		fmt.Println(err)
+		return dest
+	}
+	return ""
+}
+func Checkaudio(origin string) string {
+
+	index := strings.LastIndex(origin, ".")
+	if index > 0 {
+		dest := origin[0:index+1] + "mp3"
+		//var args = []string{"-i", origin, "-vframes", "1", "-vf", "crop=iw:iw*9/16", "-f", "image2", "-y", dest}
+		var args = []string{"-i", origin, "-y", dest}
 		cmd := exec.Command("ffmpeg", args[0:]...)
 		//cmd.Stdout = os.Stdout
 		//cmd.Stderr = os.Stderr

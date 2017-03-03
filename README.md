@@ -41,6 +41,18 @@
  argument 是变化的不定，后续扩展，只有heartbeat_　固定不变
 
 
+## **上传音频**
+http://live.66boss.com/upload/writev1?   Multipart-Form name="file"
+
+
+```
+{
+"code": 0,
+"message": "OK",
+"data": "http://livecdn.66boss.com/emopic//live/www/html/emopic/f85c0e8786bbc2d12db8d4f941f3dbd8-3.mp3"
+#-3. 其中３是时长　单位秒
+}
+```
 
 ## **上传图片/音频**
 
