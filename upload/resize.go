@@ -15,11 +15,12 @@ func Resize(name string) string {
 	decoder := jpeg.Decode
 	var JPG bool
 
-	if !strings.HasSuffix(name, ".jpg") && !strings.HasSuffix(name, ".png") {
+	if !strings.HasSuffix(name, ".jpeg") && !strings.HasSuffix(name, ".jpg") && !strings.HasSuffix(name, ".png") {
 		return path.Base(name)
 	}
 
-	JPG = strings.HasSuffix(name, ".jpg")
+	JPG = strings.HasSuffix(name, ".jpg") || strings.HasSuffix(name, ".jpeg")
+
 	if !JPG {
 		decoder = png.Decode
 	}
