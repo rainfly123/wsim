@@ -43,6 +43,7 @@ func writev1Handle(w http.ResponseWriter, req *http.Request) {
 			io.WriteString(w, string(b))
 			return
 		}
+		defer fW.Close()
 		_, err = io.Copy(fW, file)
 		if err != nil {
 			jsonres := JsonResponse{2, "系统错误", ""}
@@ -87,6 +88,7 @@ func writev2Handle(w http.ResponseWriter, req *http.Request) {
 			io.WriteString(w, string(b))
 			return
 		}
+		defer fW.Close()
 		_, err = io.Copy(fW, file)
 		if err != nil {
 			jsonres := JsonResponse{2, "系统错误", ""}
@@ -142,6 +144,7 @@ func writev3Handle(w http.ResponseWriter, req *http.Request) {
 			io.WriteString(w, string(b))
 			return
 		}
+		defer fW.Close()
 		_, err = io.Copy(fW, file)
 		if err != nil {
 			jsonres := JsonResponse{2, "系统错误", ""}
