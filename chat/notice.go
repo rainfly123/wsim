@@ -1,4 +1,4 @@
-package main
+package chat
 
 import "fmt"
 import "io/ioutil"
@@ -80,3 +80,8 @@ func main() {
 
 }
 */
+
+func UMengNotice(user string, msg string) {
+	message, detail := ParseString(msg)
+	NoticeUMeng(user, message+detail)
+}

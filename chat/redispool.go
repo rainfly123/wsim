@@ -72,6 +72,7 @@ func PushOfflineMsg(user string, msg string) {
 	}
 	client.RPush(user, msg)
 	client.Close()
+	go UMengNotice(user, msg)
 }
 func SendoutOfflineMsg(user string) []string {
 	var client *redis.Client
