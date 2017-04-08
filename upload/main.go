@@ -120,12 +120,14 @@ func writev3Handle(w http.ResponseWriter, req *http.Request) {
 		io.WriteString(w, fmt.Sprintf("<html><head><title>我的第一个页面</title></head><body><form action=\"writev3\" method=\"post\" enctype=\"multipart/form-data\"><label>上传视频</label><input type=\"file\" name='file'/><br/><label><input type=\"submit\" value=\"上传视频\"/></label></form></body></html>"))
 	} else {
 		filesize, _ := strconv.Atoi(req.Header.Get("Content-Length"))
-		if filesize/1024/1024 > 20 {
-			jsonres := JsonResponse{3, "视频文件过大", ""}
-			b, _ := json.Marshal(jsonres)
-			io.WriteString(w, string(b))
-			return
-		}
+		/*
+			if filesize/1024/1024 > 20 {
+				jsonres := JsonResponse{3, "视频文件过大", ""}
+				b, _ := json.Marshal(jsonres)
+				io.WriteString(w, string(b))
+				return
+			}
+		*/
 		file, head, err := req.FormFile("file")
 		if err != nil {
 			jsonres := JsonResponse{1, "参数错误", ""}
