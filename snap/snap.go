@@ -91,7 +91,13 @@ func GenGroupSnap(users string, group string) string {
 	outputs, _ := Resize(files)
 	fmt.Println(outputs)
 	total := len(outputs)
+        if total >= 10 {
+            total = 9
+        }
 	for i, output := range outputs {
+                if i >= 9 {
+                    break
+                }
 		tmp := POSITION[total][i]
 		draw.Draw(m, tmp, output, output.Bounds().Min, draw.Over)
 	}
