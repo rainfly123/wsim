@@ -1,6 +1,7 @@
-package main
+package gateway
 
 import (
+	"../chat"
 	"bytes"
 	"encoding/gob"
 	"fmt"
@@ -16,7 +17,7 @@ type Transmit struct {
 	Message      string
 }
 
-func main() {
+func ReceiveRouteMessage() {
 	udp_addr, err := net.ResolveUDPAddr("udp", LocalIPAddr)
 	checkError(err)
 

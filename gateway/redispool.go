@@ -1,4 +1,4 @@
-package main
+package gateway
 
 import "menteslibres.net/gosexy/redis"
 import "log"

@@ -1,4 +1,4 @@
-package main
+package gateway
 
 import (
 	"bytes"
@@ -48,6 +48,7 @@ func InitUDPSend() {
 	}()
 }
 
+/*
 func main() {
 	var temp = Transmit{"192.168.1.240:2222", "100000320", "video_touser_from啊地方"}
 	InitUDPSend()
@@ -56,3 +57,4 @@ func main() {
 		time.Sleep(1 * time.Second)
 	}
 }
+*/
