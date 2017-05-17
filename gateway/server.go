@@ -10,6 +10,7 @@ import (
 )
 
 const LocalIPAddr = "192.168.1.240:2222"
+const LocalIP = "192.168.1.240"
 
 type Transmit struct {
 	RemoteIPAddr string
