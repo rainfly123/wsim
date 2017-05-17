@@ -45,6 +45,7 @@ func recvUDPMsg(conn *net.UDPConn) {
 	}
 
 	fmt.Println("msg is ", string(buf[0:n]))
+	fmt.Println("addr is ", raddr.String())
 
 	_, err = conn.WriteToUDP([]byte("nice to see u"), raddr)
 	checkError(err)

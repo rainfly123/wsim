@@ -11,13 +11,11 @@ func main() {
 		fmt.Println("no bindip")
 		os.Exit(-1)
 	}
+	udp_addr, _ := net.ResolveUDPAddr("udp", "192.168.1.240:1111")
+	conn, _ := net.ListenUDP("udp", udp_addr)
 
-	conn, err := net.Dial("udp", os.Args[1]+":2222")
-	defer conn.Close()
-	if err != nil {
-		return
-	}
-	conn.Write([]byte("Hello world!"))
+	dudp_addr, _ := net.ResolveUDPAddr("udp", "192.168.1.240:2222")
+	conn.WriteToUDP([]byte("Hello world!"), dudp_addr)
 
 	var msg [20]byte
 	conn.Read(msg[0:])
