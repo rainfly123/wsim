@@ -2,10 +2,11 @@ package gateway
 
 import (
 	"log"
+	//	"menteslibres.net/gosexy/redis"
 )
 
 func TransmitMessage(touser string, msg string) bool {
-	server := searchServer()
+	server := searchServer(touser)
 	if len(server) <= 0 {
 		return false
 	}
@@ -15,14 +16,12 @@ func TransmitMessage(touser string, msg string) bool {
 }
 
 func searchServer(touser string) string {
-	var client *redis.Client
-	var ok bool
 	var has bool
 
-	client, ok = clients.Get()
+	client, ok := clients.Get()
 	if ok != true {
 		log.Panic("redis error")
-		return
+		return ""
 	}
 	servers, _ := client.SMembers("servers")
 	for _, v := range servers {
@@ -36,10 +35,8 @@ func searchServer(touser string) string {
 }
 
 func ReportOnline() {
-	var client *redis.Client
-	var ok bool
 
-	client, ok = clients.Get()
+	client, ok := clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return
@@ -49,10 +46,8 @@ func ReportOnline() {
 }
 
 func ReportOffline() {
-	var client *redis.Client
-	var ok bool
 
-	client, ok = clients.Get()
+	client, ok := clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return
@@ -62,10 +57,8 @@ func ReportOffline() {
 }
 
 func ReportUserOnline(touser string) {
-	var client *redis.Client
-	var ok bool
 
-	client, ok = clients.Get()
+	client, ok := clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return
@@ -76,10 +69,8 @@ func ReportUserOnline(touser string) {
 }
 
 func ReportUserOffline(touser string) {
-	var client *redis.Client
-	var ok bool
 
-	client, ok = clients.Get()
+	client, ok := clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return

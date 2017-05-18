@@ -1,10 +1,9 @@
 package gateway
 
 import "menteslibres.net/gosexy/redis"
-import "log"
 
-var host = "127.0.0.1"
-var port = uint(6379)
+//import "log"
+
 var clients redisPool
 
 type redisPool struct {
