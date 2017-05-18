@@ -9,14 +9,6 @@ import (
 	"os"
 )
 
-const LocalIPRecvAddr = "192.168.1.240:2222"
-
-type Transmit struct {
-	RemoteIPAddr string
-	Userid       string
-	Message      string
-}
-
 func receiveRouteMessage() {
 	udp_addr, err := net.ResolveUDPAddr("udp", LocalIPRecvAddr)
 	checkError(err)

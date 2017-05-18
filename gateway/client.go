@@ -8,14 +8,6 @@ import (
 	"time"
 )
 
-type Transmit struct {
-	RemoteIPAddr string
-	Userid       string
-	Message      string
-}
-
-const LocalIPSendAddr = "192.168.1.240:1111"
-
 var udp_addr *net.UDPAddr
 var conn *net.UDPConn
 var receiveChan chan Transmit
