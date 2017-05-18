@@ -4,7 +4,17 @@ import (
 	"log"
 )
 
-func SearchServer(touser string) string {
+func TransmitMessage(touser string, msg string) bool {
+	server := searchServer()
+	if len(server) <= 0 {
+		return false
+	}
+	var temp = Transmit{server, touser, msg}
+	receiveChan <- temp
+	return true
+}
+
+func searchServer(touser string) string {
 	var client *redis.Client
 	var ok bool
 	var has bool
@@ -21,7 +31,8 @@ func SearchServer(touser string) string {
 			return v
 		}
 	}
-	client.Close()
+	defer client.Close()
+	return ""
 }
 
 func ReportOnline() {
@@ -33,7 +44,7 @@ func ReportOnline() {
 		log.Panic("redis error")
 		return
 	}
-	client.SAdd("servers", LocalIP)
+	client.SAdd("servers", LocalIPRecvAddr)
 	client.Close()
 }
 
@@ -46,7 +57,7 @@ func ReportOffline() {
 		log.Panic("redis error")
 		return
 	}
-	client.SRem("servers", LocalIP)
+	client.SRem("servers", LocalIPRecvAddr)
 	client.Close()
 }
 
@@ -59,7 +70,7 @@ func ReportUserOnline(touser string) {
 		log.Panic("redis error")
 		return
 	}
-	client.SAdd(LocalIP+"_users", touser)
+	client.SAdd(LocalIPRecvAddr+"_users", touser)
 	client.Close()
 
 }
@@ -73,6 +84,6 @@ func ReportUserOffline(touser string) {
 		log.Panic("redis error")
 		return
 	}
-	client.SRem(LocalIP+"_users", touser)
+	client.SRem(LocalIPRecvAddr+"_users", touser)
 	client.Close()
 }

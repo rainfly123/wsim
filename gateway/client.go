@@ -14,13 +14,13 @@ type Transmit struct {
 	Message      string
 }
 
-const LocalIPAddr = "192.168.1.240:1111"
+const LocalIPSendAddr = "192.168.1.240:1111"
 
 var udp_addr *net.UDPAddr
 var conn *net.UDPConn
-var ReceiveChan chan Transmit
+var receiveChan chan Transmit
 
-func SendOut(temp Transmit, remote string) {
+func sendOut(temp Transmit, remote string) {
 
 	dudp_addr, _ := net.ResolveUDPAddr("udp4", remote)
 
@@ -36,13 +36,13 @@ func SendOut(temp Transmit, remote string) {
 }
 
 func InitUDPSend() {
-	udp_addr, _ = net.ResolveUDPAddr("udp", LocalIPAddr)
+	udp_addr, _ = net.ResolveUDPAddr("udp", LocalIPSendAddr)
 	conn, _ = net.ListenUDP("udp", udp_addr)
 	ReceiveChan = make(chan Transmit, 200)
 	fmt.Println("UDPSend inited...")
 	go func() {
-		for temp := range ReceiveChan {
-			SendOut(temp, temp.RemoteIPAddr)
+		for temp := range receiveChan {
+			sendOut(temp, temp.RemoteIPAddr)
 			fmt.Println(temp)
 		}
 	}()

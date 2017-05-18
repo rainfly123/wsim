@@ -9,8 +9,7 @@ import (
 	"os"
 )
 
-const LocalIPAddr = "192.168.1.240:2222"
-const LocalIP = "192.168.1.240"
+const LocalIPRecvAddr = "192.168.1.240:2222"
 
 type Transmit struct {
 	RemoteIPAddr string
@@ -18,8 +17,8 @@ type Transmit struct {
 	Message      string
 }
 
-func ReceiveRouteMessage() {
-	udp_addr, err := net.ResolveUDPAddr("udp", LocalIPAddr)
+func receiveRouteMessage() {
+	udp_addr, err := net.ResolveUDPAddr("udp", LocalIPRecvAddr)
 	checkError(err)
 
 	conn, err := net.ListenUDP("udp", udp_addr)
@@ -56,4 +55,9 @@ func checkError(err error) {
 		fmt.Println("Error: %s", err.Error())
 		os.Exit(1)
 	}
+}
+
+func InitUDPReceive() {
+	fmt.Println("UDPReceive inited...")
+	go receiveRouteMessage()
 }
