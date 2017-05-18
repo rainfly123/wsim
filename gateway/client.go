@@ -5,7 +5,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"net"
-	"time"
+	//	"time"
 )
 
 var udp_addr *net.UDPAddr
@@ -30,7 +30,7 @@ func sendOut(temp Transmit, remote string) {
 func InitUDPSend() {
 	udp_addr, _ = net.ResolveUDPAddr("udp", LocalIPSendAddr)
 	conn, _ = net.ListenUDP("udp", udp_addr)
-	ReceiveChan = make(chan Transmit, 200)
+	receiveChan = make(chan Transmit, 200)
 	fmt.Println("UDPSend inited...")
 	go func() {
 		for temp := range receiveChan {
