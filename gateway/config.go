@@ -8,3 +8,7 @@ type Transmit struct {
 	Userid       string
 	Message      string
 }
+
+//redis
+const host = "127.0.0.1"
+const port = uint(6379)
