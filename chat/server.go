@@ -147,3 +147,10 @@ func (s *Server) Listen() {
 		}
 	}
 }
+
+func (s *Server) GetClient(user string) (*Client, bool) {
+	lockUsers.RLock()
+	client, online := server.users[user]
+	lockUsers.RUnlock()
+	return client, online
+}

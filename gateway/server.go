@@ -43,6 +43,10 @@ func receiveRouteMessage() {
 		if err == nil {
 			fmt.Println(v)
 		}
+		client, online := chat.GetClient(v.Userid)
+		if online {
+			client.Write([]byte(v.Message))
+		}
 		//_, err = conn.WriteToUDP([]byte("nice to see u"), raddr)
 		//checkError(err)
 
