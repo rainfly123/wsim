@@ -19,7 +19,7 @@ func searchServer(touser string) string {
 	var ok bool
 	var has bool
 
-	client, ok = Clients.Get()
+	client, ok = clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return
@@ -39,7 +39,7 @@ func ReportOnline() {
 	var client *redis.Client
 	var ok bool
 
-	client, ok = Clients.Get()
+	client, ok = clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return
@@ -52,7 +52,7 @@ func ReportOffline() {
 	var client *redis.Client
 	var ok bool
 
-	client, ok = Clients.Get()
+	client, ok = clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return
@@ -65,7 +65,7 @@ func ReportUserOnline(touser string) {
 	var client *redis.Client
 	var ok bool
 
-	client, ok = Clients.Get()
+	client, ok = clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return
@@ -79,7 +79,7 @@ func ReportUserOffline(touser string) {
 	var client *redis.Client
 	var ok bool
 
-	client, ok = Clients.Get()
+	client, ok = clients.Get()
 	if ok != true {
 		log.Panic("redis error")
 		return

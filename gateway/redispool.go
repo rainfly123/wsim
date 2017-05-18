@@ -5,7 +5,7 @@ import "log"
 
 var host = "127.0.0.1"
 var port = uint(6379)
-var Clients redisPool
+var clients redisPool
 
 type redisPool struct {
 	connections chan *redis.Client
@@ -58,8 +58,8 @@ func newcon() (*redis.Client, error) {
 }
 
 func InitRedis() {
-	Clients.connFn = newcon
-	Clients.connections = make(chan *redis.Client, 10)
+	clients.connFn = newcon
+	clients.connections = make(chan *redis.Client, 10)
 }
 
 /*
