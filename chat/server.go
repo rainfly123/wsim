@@ -148,7 +148,7 @@ func (s *Server) Listen() {
 	}
 }
 
-func (s *Server) GetClient(user string) (*Client, bool) {
+func (s *Server) GetClient(user string, server *Server) (*Client, bool) {
 	lockUsers.RLock()
 	client, online := server.users[user]
 	lockUsers.RUnlock()

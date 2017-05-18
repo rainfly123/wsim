@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func receiveRouteMessage() {
+func receiveRouteMessage(server *Server) {
 	udp_addr, err := net.ResolveUDPAddr("udp", LocalIPRecvAddr)
 	checkError(err)
 
@@ -35,7 +35,7 @@ func receiveRouteMessage() {
 		if err == nil {
 			fmt.Println(v)
 		}
-		client, online := chat.GetClient(v.Userid)
+		client, online := chat.GetClient(v.Userid, server)
 		if online {
 			client.Write([]byte(v.Message))
 		}
@@ -53,7 +53,7 @@ func checkError(err error) {
 	}
 }
 
-func InitUDPReceive() {
+func InitUDPReceive(server *Server) {
 	fmt.Println("UDPReceive inited...")
-	go receiveRouteMessage()
+	go receiveRouteMessage(server)
 }
