@@ -3,7 +3,7 @@ package chat
 import "menteslibres.net/gosexy/redis"
 import "log"
 
-var host = "127.0.0.1"
+var host = "10.169.205.202"
 var port = uint(6379)
 var Clients redisPool
 
