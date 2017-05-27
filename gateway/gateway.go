@@ -25,6 +25,9 @@ func searchServer(touser string) string {
 	}
 	servers, _ := client.SMembers("servers")
 	for _, v := range servers {
+		if v == LocalIPRecvAddr {
+			continue
+		}
 		has, _ = client.SIsMember(v+"_users", touser)
 		if has == true {
 			return v
