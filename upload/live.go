@@ -27,9 +27,10 @@ func GetDuration(file string) string {
 	d := mp3.NewDecoder(r)
 	var f mp3.Frame
 	var du time.Duration
+        skip := 0
 	for {
 
-		if err := d.Decode(&f); err != nil {
+		if err := d.Decode(&f, &skip); err != nil {
 			break
 		}
 		du += f.Duration()

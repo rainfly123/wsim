@@ -8,11 +8,9 @@ import (
 
 const (
 	UPLOAD_PATH string = "/live/www/html/emopic/"
-	//ACCESS_URL  string = "https://weibocdn.66boss.com/weibo_pic/"
-	ACCESS_URL        string = "http://livecdn.66boss.com/emopic/"
+	ACCESS_URL        string = "http://wsimcdn.hmg66.com/emopic/"
 	UPLOAD_VIDEO_PATH string = "/live/www/html/emovideo/"
-	ACCESS_VIDEO_URL  string = "http://livecdn.66boss.com/emovideo/"
-	//ACCESS_VIDEO_URL  string = "https://weibocdn.66boss.com/weibo_video/"
+	ACCESS_VIDEO_URL  string = "http://wsimcdn.hmg66.com/emovideo/"
 
 )
 
