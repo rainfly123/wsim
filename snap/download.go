@@ -10,7 +10,7 @@ import "net/http"
 import "io/ioutil"
 
 const PATH = "/live/www/html/emovideo/"
-const VPATH = "http://live.66boss.com/emovideo/"
+const VPATH = "http://wsimcdn.hmg66.com/emovideo/"
 const SNAPURL = "https://api.66boss.com/ucenter/userinfo/avatar?user_id="
 
 func Exist(filename string) bool {
