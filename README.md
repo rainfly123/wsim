@@ -42,7 +42,7 @@
 
 
 ## **上传音频**
-http://live.66boss.com/upload/writev1?   Multipart-Form name="file"
+http://wsim.hmg66.com/upload/writev1?   Multipart-Form name="file"
 
 
 ```
@@ -56,7 +56,7 @@ http://live.66boss.com/upload/writev1?   Multipart-Form name="file"
 
 ## **上传图片**
 
-http://live.66boss.com/upload/writev2?   Multipart-Form name="file"
+http://wsim.hmg66.com/upload/writev2?   Multipart-Form name="file"
 
 ```
 {
@@ -70,7 +70,7 @@ http://live.66boss.com/upload/writev2?   Multipart-Form name="file"
 ## **上传视频**
 
 ```
-http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
+http://wsim.hmg66.com/upload/writev3?   Multipart-Form name="file"
 {
 "code": 0,
 "message": "Succeeded",
@@ -79,11 +79,11 @@ http://live.66boss.com/upload/writev3?   Multipart-Form name="file"
 ```
 
 ## **聊天**
-ws://live.66boss.com:6060/entry
+ws://wsim.hmg66.com:8080/entry
 
 
 ##群管理　
-创建群 http://live.66boss.com:6060/creategrp?creator=1000001653&members=1000001653,1000006331,1000006123,1000006340,1000001901&name=我的群 
+创建群 http://wsim.hmg66.com:8080/creategrp?creator=1000001653&members=1000001653,1000006331,1000006123,1000006340,1000001901&name=我的群 
 
 ```
 {
@@ -94,7 +94,7 @@ ws://live.66boss.com:6060/entry
 "creator": "1000001653",
 "name": "我的群",
 "notice": "",
-"snap": "http://live.66boss.com/emovideo/10.jpg",
+"snap": "http://wsim.hmg66.com/emovideo/10.jpg",
 "members": [
 "1000001653",
 "1000006331",
@@ -106,19 +106,19 @@ ws://live.66boss.com:6060/entry
 ```
 
 增加群成员
-http://live.66boss.com:6060/addmembers?groupid=10&members=50,60,70,40
+http://wsim.hmg66.com:8080/addmembers?groupid=10&members=50,60,70,40
 {"code": 1,"message": "OK"}
 
 踢出群成员
-http://live.66boss.com:6060/delmembers?groupid=10&members=50,60    
+http://wsim.hmg66.com:8080/delmembers?groupid=10&members=50,60    
 {"code": 1,"message": "OK"}
 
 更改群资料
-http://live.66boss.com:6060/editgrp?groupid=10&notice=xxx&name=xx
+http://wsim.hmg66.com:8080/editgrp?groupid=10&notice=xxx&name=xx
 {"code": 1,"message": "OK"}
 
 查询我的群
-http://live.66boss.com:6060/querymygrps?userid=xxx 查询我的群
+http://wsim.hmg66.com:8080/querymygrps?userid=xxx 查询我的群
 
 ```
 {
@@ -130,7 +130,7 @@ http://live.66boss.com:6060/querymygrps?userid=xxx 查询我的群
 "creator": "100000050",
 "name": "我的群",
 "notice": "",
-"snap": "http://live.66boss.com/emovideo/26_144fab26.jpg",
+"snap": "http://wsim.hmg66.com/emovideo/26_144fab26.jpg",
 "members": [
 {
 "nickname": "18202093751",
@@ -155,7 +155,7 @@ http://live.66boss.com:6060/querymygrps?userid=xxx 查询我的群
 "creator": "100000050",
 "name": "我的群",
 "notice": "",
-"snap": "http://live.66boss.com/emovideo/27_a3c0cea6.jpg",
+"snap": "http://wsim.hmg66.com/emovideo/27_a3c0cea6.jpg",
 "members": [
 {
 "nickname": "18202093751",
@@ -177,7 +177,7 @@ http://live.66boss.com:6060/querymygrps?userid=xxx 查询我的群
 
 
 ## 查询群信息
-http://live.66boss.com:6060/grpinfo?groupid=xxx 查询群信息
+http://wsim.hmg66.com:8080/grpinfo?groupid=xxx 查询群信息
 
 ## 所有ＡＰＩ　可以用
-http://live.66boss.com/wsim/??? 方式请求
+http://wsim.hmg66.com/wsim/??? 方式请求
