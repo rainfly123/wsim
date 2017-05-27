@@ -381,6 +381,6 @@ func main() {
 	http.HandleFunc("/grpinfo", grpinfoHandle)
 	http.HandleFunc("/querymygrps", querymygrpHandle)
 
-	log.Fatal(http.ListenAndServe(":6060", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 
 }
